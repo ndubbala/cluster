@@ -55,6 +55,7 @@ all:
 
     users:
       - name:                "andrewc"
+        fullname:            "Andrew Cole"
         email:               "andrew.cole@illallangi.com"
         uid:                 "1061"
         authorized_keys:

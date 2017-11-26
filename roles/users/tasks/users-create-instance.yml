@@ -33,6 +33,14 @@
   when:
     - user.authorized_keys is defined
 
+- template:
+    src:  "dotfiles/{{ item }}.j2"
+    dest: "/home/{{ user.name }}/.{{ item }}"
+  with_items:
+    - "gitconfig"
+  when:
+    - "inventory_hostname == groups['all'][0]"
+
 #- slurp:
 #    src: "/etc/ssh/ssh_host_ecdsa_key.pub"
 #  register: ecdsa
