@@ -1,0 +1,96 @@
+---
+
+all:
+  hosts:
+
+    ienuwonswp0101.suwa.illallangi.enterprises:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:65:2c:e6"
+          ipaddr:  "150.101.220.180"
+          netmask: "255.255.255.248"
+          gateway: "150.101.220.177"
+          vlans:
+            - vlan:    "1"
+              ipaddr:  "172.25.0.13"
+              netmask: "255.255.255.0"
+      docker_swarm_interface: "172.25.0.13"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+    ienuwonswp0102.suwa.illallangi.enterprises:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:65:2e:4a"
+          ipaddr:  "150.101.220.181"
+          netmask: "255.255.255.248"
+          gateway: "150.101.220.177"
+          vlans:
+            - vlan:    "1"
+              ipaddr:  "172.25.0.14"
+              netmask: "255.255.255.0"
+      docker_swarm_interface: "172.25.0.14"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+    ienuwonswp0103.suwa.illallangi.enterprises:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:64:fa:de"
+          ipaddr:  "150.101.220.182"
+          netmask: "255.255.255.248"
+          gateway: "150.101.220.177"
+          vlans:
+            - vlan:    "1"
+              ipaddr:  "172.25.0.15"
+              netmask: "255.255.255.0"
+      docker_swarm_interface: "172.25.0.15"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+  vars:
+
+    users:
+      - name:                "andrewc"
+        email:               "andrew.cole@illallangi.com"
+        uid:                 "1061"
+        authorized_keys:
+          - "root"
+        password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          35613537396234323363313265653336366464616232396330613231613230396439396563626631
+          3139386666363635636230666536653462633738386637640a323339376232313561633462623337
+          38643563316431366237333666616231373030393235366438386232313231353362653865306164
+          3435653331663336640a383334303662633533313761613239666665643162626264613737356166
+          62613638393236613862663833353839656335323937393433356630393838636132336438393136
+          3434323133323638343066653238663233323165633430623432
+    network_dnsservers:
+      - 8.8.8.8
+      - 8.8.4.4
+    storage_volumes:
+      - lv:     "volume1"
+        mnt:    "/var/lib/blocks/volume1"
+      - lv:     "docker"
+        mnt:    "/var/lib/docker"
+      - gv:     "{{ inventory_hostname[4:7] | upper() }}Stack"
+      - nv:     "{{ inventory_hostname[4:7] | upper() }}Data"
+        src:    "ienuyarnsi0001.suwa.illallangi.enterprises:/volume1/{{ inventory_hostname[4:7] | upper() }}Data"
+      - gv:     "{{ inventory_hostname[4:7] | upper() }}Home"
+        mnt:    "/home"
+    storage_lvgs:
+      - vg: "{{ inventory_hostname_short }}-vg0"
+        pvs:
+          - "/dev/sdb"
+    docker_proxy_network: proxy
+    cloudflare_api_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62396266356131313031353132333132323138316161363462303633623233363334326530353864
+          3534663362366637396132396263353938306533626463340a363463366363633032393332636131
+          36616233333338633833336331373334393566333238393464636631656362306663393531393939
+          3638363765376336330a363939313538353961346233653237323730663434666438626164623664
+          37343538333465353437623862636563656531323236363666386636643138663635353666386365
+          3631386131396233643631383639396366386331366430643639
+    cloudflare_email: andrew.cole@illallangi.com

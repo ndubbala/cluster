@@ -1,0 +1,31 @@
+debug=true
+
+defaultEntryPoints = ["http", "https"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[acme]
+email = "{{ cloudflare_email }}"
+storage = "/etc/traefik/acme/acme.json"
+entrypoint = "https"
+acmeLogging = true
+onDemand = true
+onHostRule = true
+caServer = "https://acme-staging.api.letsencrypt.org/directory"
+dnsProvider = "cloudflare"
+
+[docker]
+swarmmode = true
+domain = "{{ inventory_clustername }}"
+watch = true
+exposedbydefault = false
+
+[web]
+readOnly = true
+

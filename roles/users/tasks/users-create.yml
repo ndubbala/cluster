@@ -1,0 +1,7 @@
+---
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  loop_control:
+    loop_var: user
+  with_items:
+    - "{{ users }}"

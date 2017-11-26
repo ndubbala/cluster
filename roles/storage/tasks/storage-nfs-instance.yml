@@ -1,0 +1,14 @@
+---
+
+- name: "Create {{ storage.nv }} Mountpoint"
+  file:
+    path:   "{{ storage.mnt | default('/mnt/' + storage.nv) }}"
+    state:  "directory"
+
+- name: "Mount {{ storage.nv }} Logical Volume"
+  mount: 
+    path:   "{{ storage.mnt | default('/volume1/' + storage.nv) }}"
+    src:    "{{ storage.src }}"
+    fstype: "{{ storage.fs | default('nfs') }}"
+    opts:   "{{ storage.opts | default('defaults') }}"
+    state:  "mounted"

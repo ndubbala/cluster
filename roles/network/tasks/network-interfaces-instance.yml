@@ -1,0 +1,31 @@
+---
+
+- set_fact:
+    interface: "{{ item }}"
+  with_items: "{{ ansible_interfaces }}"
+  when:
+    - "'.' not in item"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] is defined"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] == network_interface.hwaddr"
+
+- template:
+    src: "ifcfg-eth.j2"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
+  register:
+    ifcfg_eth
+
+- template:
+    src: "ifcfg-vlan.j2"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}.{{ item.vlan }}"
+  register:
+    ifcfg_vlan
+  with_items:
+    "{{ network_interface.vlans }}"
+  when:
+    - network_interface.vlans is defined
+
+- service:
+    name:  "network"
+    state: "restarted"
+  when:
+    - ifcfg_eth.changed or ifcfg_vlan.changed

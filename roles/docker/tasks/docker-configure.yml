@@ -1,0 +1,63 @@
+---
+
+- name: "Make /etc/docker directory"
+  file:
+    path: "/etc/docker"
+    state: "directory"
+
+- name: "Update daemon.json file"
+  template:
+    src:  "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+  register: "configuration"
+
+- name: "Stop Docker service"
+  service:
+    name:    "docker"
+    state:   "stopped"
+  when:
+    - "configuration.changed"
+
+- name: "Start and enable Docker service"
+  service: 
+    name:          "docker"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+
+- name: "Get Docker Info"
+  command:      
+    "docker info"
+  register:     "docker_info"
+  changed_when: "false"
+
+- name: "Init Docker Swarm"
+  command:
+    "docker swarm init --advertise-addr {{ docker_swarm_interface }}"
+  when:
+    - "'Swarm: inactive' in docker_info.stdout"
+    - "inventory_hostname == groups['all'][0]"
+
+- name: "Get Docker Swarm Worker Token"
+  command:
+    "docker swarm join-token -q worker"
+  changed_when: "false"
+  register:     "docker_swarm_worker_token"
+  when:
+    - "inventory_hostname == groups['all'][0]"
+
+- name: "Get Docker Swarm Manager Token"
+  command:
+    "docker swarm join-token -q manager"
+  changed_when: "false"
+  register:     "docker_swarm_manager_token"
+  when:
+    - "inventory_hostname == groups['all'][0]"
+
+- name: "Join Docker Swarm"
+  command:
+    "docker swarm join --token {{ hostvars[groups['all'][0]]['docker_swarm_manager_token'].stdout }} {{ groups['all'][0] }} --advertise-addr {{ docker_swarm_interface }}"
+  when:
+    - "'Swarm: active' not in docker_info.stdout"
+    - "'Swarm: pending' not in docker_info.stdout"
+    - "inventory_hostname != groups['all'][0]"

@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  web:
+    image: "jwilder/whoami"
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend={{ role_path | basename }}"
+        - "traefik.port=8000"
+        - "traefik.docker.network=proxy"
+        - "traefik.frontend.rule=Host:{{ inventory_clustername_domain }},{{ inventory_clustername }},{{ groups['all'] | join(',') }}"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

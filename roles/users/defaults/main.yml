@@ -1,0 +1,7 @@
+---
+
+inventory_hostname_domain: "{{ inventory_hostname | regex_replace('^' + inventory_hostname_short + '\\.', '') }}"
+
+inventory_clustername_short:  "{{ inventory_hostname_short[:-2] }}00"
+inventory_clustername_domain: "{{ inventory_hostname_domain }}"
+inventory_clustername:        "{{ inventory_clustername_short }}.{{ inventory_clustername_domain }}"

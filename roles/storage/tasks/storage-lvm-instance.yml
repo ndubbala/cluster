@@ -1,0 +1,24 @@
+---
+
+- name: "Create {{ storage.lv }} Mountpoint"
+  file:
+    path:   "{{ storage.mnt | default('/mnt/' + storage.lv) }}"
+    state:  "directory"
+
+- name: "Create {{ storage.lv }} Logical Volume"
+  lvol:
+    vg:   "{{ storage.vg | default(storage_lvgs[0].vg) }}"
+    lv:   "{{ storage.lv }}"
+    size: "{{ storage.size | default('100G') }}"
+
+- name: "Format {{ storage.lv }} Logical Volume"
+  filesystem:
+    fstype: "{{ storage.fs | default('xfs') }}"
+    dev:    "/dev/{{ storage.vg | default(storage_lvgs[0].vg) }}/{{ storage.lv }}"
+
+- name: "Mount {{ storage.lv }} Logical Volume"
+  mount:
+    path:   "{{ storage.mnt | default('/mnt/' + storage.lv) }}"
+    src:    "/dev/{{ storage.vg | default(storage_lvgs[0].vg) }}/{{ storage.lv }}"
+    fstype: "{{ storage.fs | default('xfs') }}"
+    state:  "mounted"

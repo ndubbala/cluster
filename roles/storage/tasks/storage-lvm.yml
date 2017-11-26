@@ -1,0 +1,17 @@
+---
+
+- name: "Create Volume Group"
+  lvg:
+    vg:    "{{ item.vg }}"
+    pvs:   "{{ item.pvs }}"
+    state: "present"
+  with_items:
+    "{{ storage_lvgs }}"
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  with_items:
+    "{{ storage_volumes }}"
+  loop_control:
+    loop_var: storage
+  when:
+   - storage.lv is defined

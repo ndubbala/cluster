@@ -1,0 +1,55 @@
+---
+
+- file:
+    path:  "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}"
+    state: "directory"
+  run_once: yes
+
+- file:
+    path:  "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ d }}"
+    state: "directory"
+  run_once: yes
+  loop_control:
+    loop_var: d
+  with_items:
+    "{{ item.dirs }}"
+  when:
+    - item is defined
+    - item.dirs is defined
+
+- file:
+    path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | basename }}"
+    state: "directory"
+  run_once: yes
+  loop_control:
+    loop_var: f
+  with_items:
+    "{{ item.templates }}"
+  when:
+    - item is defined
+    - item.templates is defined
+
+- template:
+    src:  "{{ f.src }}"
+    dest: "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ f.name }}"
+  run_once: yes
+  loop_control:
+    loop_var: f
+  with_items:
+    "{{ item.templates }}"
+  when:
+    - item is defined
+    - item.templates is defined
+
+- template:
+    src:  "stack.j2"
+    dest: "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ role_path | basename }}-stack.yml"
+  run_once: "yes"
+  register: stack
+
+- command:
+    "docker stack deploy --compose-file /volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ role_path | basename }}-stack.yml --prune {{ role_path | basename }}"
+  run_once: "yes"
+  when:
+    - stack.changed
+    - item is not defined or item.deploy is not defined or item.deploy == true

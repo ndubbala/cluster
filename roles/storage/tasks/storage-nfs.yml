@@ -1,0 +1,20 @@
+---
+
+- name: "Start NFS Services"
+  service: 
+    name:          "{{ item }}"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - rpcbind
+    - nfs-server
+    - nfs-lock
+    - nfs-idmap
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  with_items:
+    "{{ storage_volumes }}"
+  loop_control:
+    loop_var: storage
+  when:
+   - storage.nv is defined

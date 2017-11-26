@@ -1,0 +1,11 @@
+---
+
+- name: "Checking that required variables are set"
+  fail:
+    msg: "{{ item }} is not defined"
+  when:
+    - hostvars[inventory_hostname][item] is not defined
+  with_items:
+    - docker_proxy_network
+    - cloudflare_email
+    - cloudflare_api_key

@@ -1,0 +1,6 @@
+---
+
+- docker_network:
+    name:   "{{ docker_proxy_network }}"
+    driver: "overlay"
+  run_once: "yes"

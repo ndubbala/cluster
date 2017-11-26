@@ -1,0 +1,7 @@
+---
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  loop_control:
+    loop_var: network_interface
+  with_items:
+    - "{{ network_interfaces }}"

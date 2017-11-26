@@ -1,0 +1,17 @@
+---
+
+- name: "Start Gluster Service"
+  service: 
+    name:          "{{ item }}"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "glusterd"
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  with_items:
+    "{{ storage_volumes }}"
+  loop_control:
+    loop_var: storage
+  when:
+   - storage.gv is defined

@@ -1,0 +1,107 @@
+// Providers:
+
+var REG_NONE = NewRegistrar('none', 'NONE');    // No registrar.
+var DNS_CF = NewDnsProvider('cloudflare', 'CLOUDFLAREAPI');
+
+// Domains:
+
+D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
+
+// Apex records:
+
+                        ALIAS('@', 'illallangi-web.github.io.'),
+                          TXT('@', 'v=spf1 include:spf.protection.outlook.com include:_spf.internode.on.net -all'),
+                           MX('@', 0, 'illallangi-enterprises.mail.protection.outlook.com.'),
+                      CNAME('pki', 'illallangi-web.github.io.'),
+                      CNAME('www', 'illallangi-web.github.io.'),
+                     CNAME('home', 'illallangi-web.github.io.'),
+
+// YAR-INF-01
+
+      A('vl1.ienuyarrti0101.suwa', '172.25.0.1'),
+
+          A('ienuyarnip0001.suwa', '172.25.0.2'),
+
+          A('ienuyarnsi0001.suwa', '172.25.0.4'),
+             CNAME('acadata.suwa', 'ienuyarnsi0001.suwa.illallangi.enterprises.'),
+             CNAME('yardata.suwa', 'ienuyarnsi0001.suwa.illallangi.enterprises.'),
+             CNAME('wondata.suwa', 'ienuyarnsi0001.suwa.illallangi.enterprises.'),
+             CNAME('esxdata.suwa', 'ienuyarnsi0001.suwa.illallangi.enterprises.'),
+             CNAME('pxedata.suwa', 'ienuyarnsi0001.suwa.illallangi.enterprises.'),
+
+          A('ienuyarswi0001.suwa', '172.25.0.5'),
+          A('ienuyarswi0002.suwa', '172.25.0.6'),
+          A('ienuyarswi0003.suwa', '172.25.0.7'),
+
+          A('ienuyarwai0001.suwa', '172.25.0.9'),
+
+          A('ienuyarvsi0101.suwa', '172.25.0.17'),
+          A('ienuyarvsi0102.suwa', '172.25.0.18'),
+
+          A('ienuyarvci0101.suwa', '172.25.0.21'),
+
+// ACA-INF-01
+
+    A('vl513.ienuacarti0101.suwa', '172.25.32.1'),
+
+          A('ienuacanip0001.suwa', '172.25.32.2'),
+
+// YAR-DMZ-01
+
+          A('ienuyarrti0001.suwa', '150.101.220.177'),
+   A('vl4093.ienuyarrti0001.suwa', '150.101.220.177'),
+
+          A('ienuyarrti0101.suwa', '150.101.220.178'),
+   A('vl4093.ienuyarrti0101.suwa', '150.101.220.178'),
+
+          A('ienuacarti0101.suwa', '150.101.220.179'),
+   A('vl4093.ienuacarti0101.suwa', '150.101.220.179'),
+
+          A('ienuwonwsp0101.suwa', '150.101.220.179'),
+                CNAME('kapacitor', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                 CNAME('influxdb', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                  CNAME('grafana', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+              CNAME('diskstation', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+              CNAME('filestation', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+          CNAME('downloadstation', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                   CNAME('sonarr', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+               CNAME('chronograf', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                   CNAME('radarr', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                    CNAME('cloud', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                 CNAME('telegraf', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+                     CNAME('plex', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+    CNAME('*.ienuwonwsp0101.suwa', 'ienuwonwsp0101.suwa.illallangi.enterprises.'),
+
+    CNAME('*.ienuwonswp0100.suwa', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
+          A('ienuwonswp0100.suwa', '150.101.220.180'),
+          A('ienuwonswp0100.suwa', '150.101.220.181'),
+          A('ienuwonswp0100.suwa', '150.101.220.182'),
+          A('ienuwonswp0101.suwa', '150.101.220.180'),
+          A('ienuwonswp0102.suwa', '150.101.220.181'),
+          A('ienuwonswp0103.suwa', '150.101.220.182'),
+
+// VPN-01
+
+     A('tun0.ienuyarrti0101.suwa', '172.25.255.225'),
+     A('tun0.ienuacarti0101.suwa', '172.25.255.226'),
+
+// NLD-WAN-01
+
+          A('ienunldwsp0101.suwa', '62.212.72.233'),
+    CNAME('*.ienunldwsp0101.suwa', 'ienunldwsp0101.suwa.illallangi.enterprises.'),
+
+// NYC-WAN-01
+
+          A('ienunycwsp0101.suwa', '198.199.76.9'),
+    CNAME('*.ienunycwsp0101.suwa', 'ienunycwsp0101.suwa.illallangi.enterprises.'),
+
+// SIN-WAN-01
+
+          A('ienusinwsp0101.suwa', '139.162.30.87'),
+    CNAME('*.ienusinwsp0101.suwa', 'ienusinwsp0101.suwa.illallangi.enterprises.'),
+
+// YAR-WAN-01
+
+   A('pppoe0.ienuyarrti0001.suwa', '59.167.127.11')
+
+   );

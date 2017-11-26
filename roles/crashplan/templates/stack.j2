@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+
+  crashplan:
+    image: "rungeict/crashplanpro"
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+    ports:
+      - "4242:4242"
+      - "4243:4243"
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/lib/crashplan:/var/lib/crashplan"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data:/storage"

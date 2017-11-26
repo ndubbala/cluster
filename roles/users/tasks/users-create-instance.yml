@@ -1,0 +1,43 @@
+---
+
+- user:
+    name:              "{{ user.name }}"
+    comment:           "{{ user.comment | default(user.name) }}"
+    uid:               "{{ user.uid }}"
+    password:          "{{ user.password }}"
+    generate_ssh_key: "yes"
+    ssh_key_bits:     "2048"
+    ssh_key_file:     ".ssh/id_rsa"
+    ssh_key_comment:  "{{ user.email }}"
+  when:
+    - "inventory_hostname == groups['all'][0]"
+
+- user:
+    name:              "{{ user.name }}"
+    comment:           "{{ user.comment | default(user.name) }}"
+    uid:               "{{ user.uid }}"
+    password:          "{{ user.password }}"
+  when:
+    - "inventory_hostname != groups['all'][0]"
+
+- slurp:
+    src: "/home/{{ user.name }}/.ssh/id_rsa.pub"
+  register: rsa
+
+- authorized_key:
+    user:  "{{ item }}"
+    state: "present"
+    key:   "{{ rsa['content'] | b64decode }}"
+  with_items:
+    "{{ user.authorized_keys }}"
+  when:
+    - user.authorized_keys is defined
+
+#- slurp:
+#    src: "/etc/ssh/ssh_host_ecdsa_key.pub"
+#  register: ecdsa
+
+#- known_hosts:
+#    path: "/home/{{ user.name }}/.ssh/known_hosts"
+#    name: "{{ inventory_hostname }}"
+#    key:  "{{ ecdsa['content'] | b64decode }}"

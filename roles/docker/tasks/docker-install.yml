@@ -1,0 +1,26 @@
+---
+
+- name: "Import RPM Keys"
+  rpm_key:
+    key:   "{{ item }}"
+    state: "present"
+  with_items:
+  - "https://download.docker.com/linux/centos/gpg"
+
+- name: "Install Repositories from Files"
+  yum_repository:
+    file:        "docker-ce"
+    name:        "docker-ce-stable"
+    description: "Docker CE Stable - $basearch"
+    baseurl:     "https://download.docker.com/linux/centos/7/$basearch/stable"
+    enabled:     "yes"
+    gpgcheck:    "yes"
+    gpgkey:      "https://download.docker.com/linux/centos/gpg"
+
+- name: "Install Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+  - "python-docker"
+  - "docker-ce"

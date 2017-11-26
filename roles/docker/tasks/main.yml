@@ -1,0 +1,11 @@
+---
+
+- include_tasks: check-vars.yml
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}.yml"
+  loop_control:
+    loop_var: role_task
+  with_items:
+    - "install"
+    - "configure"
+    - "network"

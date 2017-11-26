@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+
+  web:
+    image: "portainer/portainer"
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      placement:
+        constraints:
+          - "node.role == manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend=portainer"
+        - "traefik.port=9000"
+        - "traefik.docker.network=proxy"
+        - "traefik.frontend.rule=Host:portainer.{{ inventory_clustername }}"
+    command: "-H unix:///var/run/docker.sock"
+    networks:
+      - proxy
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/data:/data"
+
+networks:
+  proxy:
+    external: true

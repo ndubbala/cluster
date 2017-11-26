@@ -1,0 +1,15 @@
+#!/usr/bin/ansible-playbook --inventory-file=inventories/won.yml
+---
+
+- hosts: all
+  roles:
+  - { role: network }
+  - { role: storage }
+  - { role: docker }
+  - { role: ansible }
+  - { role: users }
+  - { role: portainer }
+  - { role: proxy }
+  - { role: whoami }
+  - { role: dnscontrol }
+  - { role: crashplan }

@@ -1,0 +1,29 @@
+---
+
+- name: "Create {{ storage.gv }} Mountpoint"
+  file:
+    path:  "{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}"
+    state: "directory"
+
+- name: "Create {{ storage.gv }} Brick Path"
+  file:
+    path:  "/var/lib/blocks/{{ storage.bricks | default('volume1') }}/{{ storage.gv }}"
+    state: "directory"
+
+- name: "Create {{ storage.gv }} Gluster Volume"
+  gluster_volume:
+    state: present
+    name: "{{ storage.gv }}"
+    bricks: "/var/lib/blocks/{{ storage.bricks | default('volume1') }}/{{ storage.gv }}"
+    host: "{{ ansible_hostname }}"
+    replicas: "{{ groups['all'] | length }}"
+    cluster:
+      "{{ groups['all'] }}"
+  run_once: true
+
+- name: "Mount {{ storage.gv }} Gluster Volume"
+  mount:
+    path:  "{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}"
+    src:    "{{ inventory_hostname }}:/{{ storage.gv }}"
+    fstype: "glusterfs"
+    state:  "mounted"
