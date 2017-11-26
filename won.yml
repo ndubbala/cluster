@@ -6,7 +6,6 @@
   - { role: network }
   - { role: storage }
   - { role: docker }
-  - { role: ansible }
   - { role: users }
   - { role: portainer }
   - { role: proxy }
