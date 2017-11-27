@@ -1,11 +1,13 @@
 ---
 
-- file:
+- name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Stack directory"
+  file:
     path:  "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}"
     state: "directory"
   run_once: yes
 
-- file:
+- name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Stack empty directories"
+  file:
     path:  "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ d }}"
     state: "directory"
   run_once: yes
@@ -17,7 +19,8 @@
     - item is defined
     - item.stackdirs is defined
 
-- file:
+- name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Stack template directories"
+  file:
     path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | dirname }}"
     state: "directory"
   run_once: yes
@@ -29,7 +32,8 @@
     - item is defined
     - item.templates is defined
 
-- template:
+- name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Stack templated files"
+  template:
     src:  "{{ f.src }}"
     dest: "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ f.name }}"
   run_once: yes
@@ -41,13 +45,15 @@
     - item is defined
     - item.templates is defined
 
-- template:
+- name: "Create {{ role_path | basename }} stack YML file"
+  template:
     src:  "stack.j2"
     dest: "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ role_path | basename }}-stack.yml"
   run_once: "yes"
   register: stack
 
-- command:
+- name: "Deploy {{ role_path | basename }} stack"
+  command:
     "docker stack deploy --compose-file /volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/{{ role_path | basename }}-stack.yml --prune {{ role_path | basename }}"
   run_once: "yes"
   when:
