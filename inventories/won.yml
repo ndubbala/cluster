@@ -109,3 +109,8 @@ all:
           31343137336437376639356264663863616564643436323062313365333934333862633734323139
           3433396666323865343531383766326665353335333035626430
     musicbrainz_tz: "Australia/Melbourne"
+
+    plex_hostname: "plex.illallangi.enterprises"
+    plex_tz:       "Australia/Melbourne"
+    plex_ip:       "150.101.220.180"
+    plex_claim:    "claim-mfZCBTdQv9nvKAxyymHp"
