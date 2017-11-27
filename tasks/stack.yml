@@ -19,6 +19,19 @@
     - item is defined
     - item.stackdirs is defined
 
+- name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Data empty directories"
+  file:
+    path:  "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/{{ role_path | basename }}/{{ d }}"
+    state: "directory"
+  run_once: yes
+  loop_control:
+    loop_var: d
+  with_items:
+    "{{ item.datadirs }}"
+  when:
+    - item is defined
+    - item.datadirs is defined
+
 - name: "Create {{ role_path | basename }} {{ inventory_hostname[4:7] | upper() }}Stack template directories"
   file:
     path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | dirname }}"
