@@ -5,8 +5,6 @@
 - include_tasks: "stack.yml"
   with_items:
     - deploy: false
-      dirs:
-        - "dns"
       templates:
         - src:  "dnsconfig.js.j2"
           name: "dns/dnsconfig.js"

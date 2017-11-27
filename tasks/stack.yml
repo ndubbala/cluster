@@ -18,7 +18,7 @@
     - item.stackdirs is defined
 
 - file:
-    path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | basename }}"
+    path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | dirname }}"
     state: "directory"
   run_once: yes
   loop_control:
