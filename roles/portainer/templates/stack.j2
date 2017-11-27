@@ -14,11 +14,11 @@ services:
         - "traefik.enable=true"
         - "traefik.backend=portainer"
         - "traefik.port=9000"
-        - "traefik.docker.network=proxy"
+        - "traefik.docker.network={{ docker_proxy_network }}"
         - "traefik.frontend.rule=Host:portainer.{{ inventory_clustername }}"
     command: "-H unix:///var/run/docker.sock"
     networks:
-      - proxy
+      - {{ docker_proxy_network }}
     ports:
       - "9000:9000"
     volumes:
@@ -26,5 +26,5 @@ services:
       - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/data:/data"
 
 networks:
-  proxy:
+  {{ docker_proxy_network }}:
     external: true
