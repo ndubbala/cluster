@@ -21,7 +21,7 @@ services:
       - "{{ docker_proxy_network }}"
     volumes:
       - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/config:/config"
-      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data:/{{ role_path | basename }}/data:/data"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/{{ role_path | basename }}/data:/data"
 
 networks:
   {{ docker_proxy_network }}:
