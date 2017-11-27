@@ -17,7 +17,7 @@ entrypoint = "https"
 acmeLogging = true
 onDemand = true
 onHostRule = true
-caServer = "https://acme-staging.api.letsencrypt.org/directory"
+caServer = "{{ proxy_acme_url | default('https://acme-staging.api.letsencrypt.org/directory') }}"
 dnsProvider = "cloudflare"
 
 [docker]
