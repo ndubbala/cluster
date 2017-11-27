@@ -3,7 +3,8 @@
 var REG_NONE = NewRegistrar('none', 'NONE');    // No registrar.
 var DNS_CF = NewDnsProvider('cloudflare', 'CLOUDFLAREAPI');
 
-// Domains:
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+// illallangi.enterprises
 
 D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
 
@@ -97,3 +98,47 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
    A('pppoe0.ienuyarrti0001.suwa', '59.167.127.11')
 
    );
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+// alltheforest.com
+
+D('alltheforest.com', REG_NONE, DnsProvider(DNS_CF),
+                        ALIAS('@', 'ienusinwsp0101.suwa.illallangi.enterprises.'),
+                      CNAME('www', 'ienusinwsp0101.suwa.illallangi.enterprises.')
+  );
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+// fiftyeight.us
+
+D('fiftyeight.us', REG_NONE, DnsProvider(DNS_CF),
+                        ALIAS('@', 'illallangi-web.github.io.'),
+                      CNAME('www', 'illallangi-web.github.io.')
+  );
+  
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+// illallangi.com
+
+D('illallangi.com', REG_NONE, DnsProvider(DNS_CF),
+                        ALIAS('@', 'ienusinwsp0101.suwa.illallangi.enterprises.'),
+                          TXT('@', 'v=spf1 include:spf.protection.outlook.com include:_spf.internode.on.net -all'),
+                           MX('@', 0, 'illallangi-com.mail.protection.outlook.com.'),
+                      CNAME('www', 'ienusinwsp0101.suwa.illallangi.enterprises.'),
+                      CNAME('sip', 'sipdir.online.lync.com.'),
+             CNAME('autodiscover', 'autodiscover.outlook.com.'),
+     CNAME('enterpriseenrollment', 'enterpriseenrollment.manage.microsoft.com.'),
+   CNAME('enterpriseregistration', 'enterpriseregistration.windows.net.'),
+             CNAME('lyncdiscover', 'webdir.online.lync.com.'),
+                    CNAME('msoid', 'clientconfig.microsoftonline-p.net.'),
+     SRV('_sipfederationtls._tcp', 100, 1, 5061, 'sipfed.online.lync.com.'),
+                  SRV('_sip._tls', 100, 1, 443,  'sipdir.online.lync.com.')
+  );
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+// illq.net
+
+D('illq.net', REG_NONE, DnsProvider(DNS_CF),
+                            A('@', '67.199.248.12'),
+                            A('@', '67.199.248.13'),
+                      CNAME('www', 'illq.net.')
+  );
+  
