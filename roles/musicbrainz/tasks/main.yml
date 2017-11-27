@@ -1,0 +1,8 @@
+---
+
+- include_tasks: "check-vars.yml"
+
+- include_tasks: "stack.yml"
+  with_items:
+    - dirs:
+        - "config"
