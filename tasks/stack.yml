@@ -12,10 +12,10 @@
   loop_control:
     loop_var: d
   with_items:
-    "{{ item.dirs }}"
+    "{{ item.stackdirs }}"
   when:
     - item is defined
-    - item.dirs is defined
+    - item.stackdirs is defined
 
 - file:
     path:  "{{ ('/volume1/' + (inventory_hostname[4:7] | upper()) + 'Stack/' + (role_path | basename) + '/' + f.name) | basename }}"
