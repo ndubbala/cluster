@@ -110,6 +110,8 @@ all:
           3433396666323865343531383766326665353335333035626430
     musicbrainz_tz: "Australia/Melbourne"
 
+    cloud_hostname: "cloud.illallangi.enterprises"
+
     plex_hostname: "plex.illallangi.enterprises"
     plex_tz:       "Australia/Melbourne"
     plex_ip:       "150.101.220.180"
