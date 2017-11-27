@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+
+  db:
+    image: "mariadb"
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/lib/mysql:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Letmein1234
+      - MYSQL_PASSWORD=Letmein1234
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  web:
+    image: "nextcloud"
+    links:
+      - db
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend={{ role_path | basename }}"
+        - "traefik.port=80"
+        - "traefik.docker.network={{ docker_proxy_network }}"
+        - "traefik.frontend.rule=Host:{{ cloud_hostname }}"
+    networks:
+      - "default"
+      - "{{ docker_proxy_network }}"
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/www/html:/var/www/html"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/www/html_custom_apps:/var/www/html/custom_apps"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/www/html_config:/var/www/html/config"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/{{ role_path | basename }}/var/www/html/data:/var/www/html/data"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/btn/pub:/var/pub/television:ro"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/ptp/pub:/var/pub/movie:ro"
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/iax/pub:/var/pub/software:ro"
+
+networks:
+  {{ docker_proxy_network }}:
+    external: true
