@@ -68,11 +68,11 @@ all:
           3435653331663336640a383334303662633533313761613239666665643162626264613737356166
           62613638393236613862663833353839656335323937393433356630393838636132336438393136
           3434323133323638343066653238663233323165633430623432
-          
+
     network_dnsservers:
       - 8.8.8.8
       - 8.8.4.4
-      
+
     storage_volumes:
       - lv:     "volume1"
         mnt:    "/var/lib/blocks/volume1"
@@ -87,9 +87,9 @@ all:
       - vg: "{{ inventory_hostname_short }}-vg0"
         pvs:
           - "/dev/sdb"
-          
+
     docker_proxy_network: proxy
-    
+
     cloudflare_api_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62396266356131313031353132333132323138316161363462303633623233363334326530353864
@@ -114,3 +114,5 @@ all:
     plex_tz:       "Australia/Melbourne"
     plex_ip:       "150.101.220.180"
     plex_claim:    "claim-mfZCBTdQv9nvKAxyymHp"
+
+    proxy_acme_url: "https://acme-v01.api.letsencrypt.org/directory"
