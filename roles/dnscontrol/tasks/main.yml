@@ -6,6 +6,10 @@
   with_items:
     - deploy: false
       templates:
+        - src:  "dnscontrol-push.sh.j2"
+          name: "dnscontrol-push.sh"
+        - src:  "dnscontrol-preview.sh.j2"
+          name: "dnscontrol-preview.sh"
         - src:  "dnsconfig.js.j2"
           name: "dns/dnsconfig.js"
         - src:  "creds.json.j2"
