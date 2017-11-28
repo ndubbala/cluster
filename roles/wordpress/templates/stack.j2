@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/lib/mysql:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=027bOaGcjMA0Agstb6Xv027bOaGcjMA0Agstb6Xv
+      - MYSQL_PASSWORD=027bOaGcjMA0Agstb6Xv
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+
+  web:
+    image: "wordpress:latest"
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/www/html:/var/www/html"
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=027bOaGcjMA0Agstb6Xv
+      - WORDPRESS_DB_NAME=wordpress
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend={{ role_path | basename }}"
+        - "traefik.port=80"
+        - "traefik.docker.network={{ docker_proxy_network }}"
+        - "traefik.frontend.rule=Host:{{ role_path | basename }}.{{ inventory_clustername }}"
+    networks:
+      - default
+      - {{ docker_proxy_network }}
+
+networks:
+  {{ docker_proxy_network }}:
+    external: true
