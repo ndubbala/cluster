@@ -12,3 +12,6 @@
   - { role: whoami }
   - { role: dnscontrol }
   - { role: crashplan }
+  - { role: cloud }
+  - { role: musicbrainz }
+  - { role: plex }
