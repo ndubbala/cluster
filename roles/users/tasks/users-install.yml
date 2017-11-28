@@ -8,3 +8,5 @@
     - "iotop"
     - "mosh"
     - "ansible"
+    - "dos2unix"
+    - "unix2dos"
