@@ -15,3 +15,5 @@
   - { role: cloud }
   - { role: musicbrainz }
   - { role: plex }
+  - { role: swarm }
+
