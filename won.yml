@@ -16,4 +16,5 @@
   - { role: musicbrainz }
   - { role: plex }
   - { role: swarm }
+  - { role: wordpress }
 
