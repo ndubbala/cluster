@@ -12,7 +12,7 @@ services:
         - "traefik.backend={{ role_path | basename }}"
         - "traefik.port=8000"
         - "traefik.docker.network={{ docker_proxy_network }}"
-        - "traefik.frontend.rule=Host:{{ inventory_clustername_domain }},{{ inventory_clustername }},{{ groups['all'] | join(',') }}"
+        - "traefik.frontend.rule=Host:{{ inventory_clustername_domain }},{{ inventory_clustername }}"
     networks:
       - {{ docker_proxy_network }}
 
