@@ -29,3 +29,23 @@ exposedbydefault = false
 [web]
 readOnly = true
 
+{% if proxy_forward is defined %}
+[file]
+
+[backends]
+{% for backend in proxy_forward %}
+[backends.{{ backend.name }}]
+  [backends.{{ backend.name }}.servers.server1]
+    url = "{{ backend.backend }}"
+
+{% endfor %}
+
+[frontends]
+{% for frontend in proxy_forward %}
+  [frontends.{{ frontend.name }}]
+  backend = "{{ frontend.name }}"
+    [frontends.{{ frontend.name }}.routes.{{ frontend.name }}1]
+    rule = "Host:{{ frontend.frontend }}"
+
+{% endfor %}
+{% endif %}

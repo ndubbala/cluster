@@ -118,3 +118,13 @@ all:
     plex_claim:    "claim-mfZCBTdQv9nvKAxyymHp"
 
     proxy_acme_url: "https://acme-v01.api.letsencrypt.org/directory"
+    proxy_forward:
+     - name:     "diskstation"
+       frontend: "diskstation.illallangi.enterprises"
+       backend:  "http://ienuyarnsi0001.suwa.illallangi.enterprises:5000/"
+     - name:     "downloadstation"
+       frontend: "downloadstation.illallangi.enterprises"
+       backend:  "http://ienuyarnsi0001.suwa.illallangi.enterprises:8000/"
+     - name:     "filestation"
+       frontend: "filestation.illallangi.enterprises"
+       backend:  "https://ienuyarnsi0001.suwa.illallangi.enterprises:7001/"
