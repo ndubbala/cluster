@@ -2,6 +2,29 @@ version: "3"
 
 services:
 
+{% for h in groups['all'] %}
+  web-{{ h[7:14] }}:
+    image: "portainer/portainer"
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      placement:
+        constraints:
+          - "node.hostname == {{ h }}"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend=portainer"
+        - "traefik.port=9000"
+        - "traefik.docker.network={{ docker_proxy_network }}"
+        - "traefik.frontend.rule=Host:{{ h }}"
+    command: "-H unix:///var/run/docker.sock"
+    networks:
+      - {{ docker_proxy_network }}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ role_path | basename }}:/data"
+
+{% endfor %}
   web:
     image: "portainer/portainer"
     deploy:
@@ -28,3 +51,6 @@ services:
 networks:
   {{ docker_proxy_network }}:
     external: true
+
+volumes:
+  {{ role_path | basename }}:
