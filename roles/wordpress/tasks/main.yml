@@ -6,4 +6,9 @@
   with_items:
     - stackdirs:
         - "/var/lib/mysql"
-        - "/var/www/html"
+        - "/var/lib/docker-entrypoint-initdb.d"
+        - "/var/www/html/wp-content/languages"
+        - "/var/www/html/wp-content/plugins"
+        - "/var/www/html/wp-content/themes"
+        - "/var/www/html/wp-content/uploads"
+
