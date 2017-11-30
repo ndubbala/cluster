@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:9.5
+    volumes:
+      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/var/lib/postgresql/data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=netbox
+      - POSTGRES_PASSWORD=netbox
+      - POSTGRES_DB=netbox
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+
+  app:
+    image: pitkley/netbox
+    depends_on:
+      - db
+    environment:
+      - ALLOWED_HOSTS=*
+      - DB_HOST=db
+      - DB_NAME=netbox
+      - DB_USER=netbox
+      - DB_PASS=netbox
+      - SECRET_KEY=Letmein123
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend={{ role_path | basename }}"
+        - "traefik.port=8000"
+        - "traefik.docker.network={{ docker_proxy_network }}"
+        - "traefik.frontend.rule=Host:{{ role_path | basename }}.{{ inventory_clustername }}"
+    networks:
+      - default
+      - {{ docker_proxy_network }}
+
+networks:
+  {{ docker_proxy_network }}:
+    external: true
+

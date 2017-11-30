@@ -1,0 +1,9 @@
+---
+
+- include_tasks: "check-vars.yml"
+
+- include_tasks: "stack.yml"
+  with_items:
+    - stackdirs:
+        - "/var/lib/postgresql/data"
+
