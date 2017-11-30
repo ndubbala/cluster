@@ -1,6 +1,0 @@
-#!/usr/bin/ansible-playbook --inventory-file=inventories/won.yml
----
-
-- hosts: all
-  roles:
-  - { role: plex }
