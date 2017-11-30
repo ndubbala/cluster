@@ -22,9 +22,13 @@ services:
       - "{{ docker_proxy_network }}"
     volumes:
       - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/config:/config"
-      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/{{ role_path | basename }}/transcode:/transcode"
+      - "transcode:/transcode"
       - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/btn/pub:/var/pub/television:ro"
       - "/volume1/{{ inventory_hostname[4:7] | upper() }}Data/ptp/pub:/var/pub/movie:ro"
+
+volumes:
+  transcode:
+    driver: local
 
 networks:
   {{ docker_proxy_network }}:

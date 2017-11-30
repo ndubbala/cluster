@@ -6,5 +6,3 @@
   with_items:
     - stackdirs:
         - "config"
-      datadirs:
-        - "transcode"
