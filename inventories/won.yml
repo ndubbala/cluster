@@ -90,8 +90,6 @@ all:
         pvs:
           - "/dev/sdb"
 
-    docker_proxy_network: proxy
-
     cloudflare_api_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62396266356131313031353132333132323138316161363462303633623233363334326530353864
@@ -101,32 +99,3 @@ all:
           37343538333465353437623862636563656531323236363666386636643138663635353666386365
           3631386131396233643631383639396366386331366430643639
     cloudflare_email: andrew.cole@illallangi.com
-
-    musicbrainz_code: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          39356562336338326533643031373031396532396537326465373263313032353063666566653435
-          3234626231653563376635613631313837353865383464340a633963353639366163666261323934
-          33353530386565323732333031376565623665353435633336346262626666386534636263613231
-          6531306432313439640a336338353439663562323532626130623935626462376663353864386230
-          31343137336437376639356264663863616564643436323062313365333934333862633734323139
-          3433396666323865343531383766326665353335333035626430
-    musicbrainz_tz: "Australia/Melbourne"
-
-    cloud_hostname: "cloud.illallangi.enterprises"
-
-    plex_hostname: "plex.illallangi.enterprises"
-    plex_tz:       "Australia/Melbourne"
-    plex_ip:       "150.101.220.180"
-    plex_claim:    "claim-mfZCBTdQv9nvKAxyymHp"
-
-    proxy_acme_url: "https://acme-v01.api.letsencrypt.org/directory"
-    proxy_forward:
-     - name:     "diskstation"
-       frontend: "diskstation.illallangi.enterprises"
-       backend:  "http://ienuyarnsi0001.suwa.illallangi.enterprises:5000/"
-     - name:     "downloadstation"
-       frontend: "downloadstation.illallangi.enterprises"
-       backend:  "http://ienuyarnsi0001.suwa.illallangi.enterprises:8000/"
-     - name:     "filestation"
-       frontend: "filestation.illallangi.enterprises"
-       backend:  "https://ienuyarnsi0001.suwa.illallangi.enterprises:7001/"
