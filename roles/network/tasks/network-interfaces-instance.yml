@@ -14,23 +14,36 @@
   when:
     - "network_interface.interface is defined"
 
+- slack:
+    token: "{{ slack_token }}"
+    msg:   |
+      :information_source: *{{ role_path | basename }} running network-interface-instance.yml on {{ inventory_hostname_short }} with the following variable:*
+      
+      *network_interface*:
+      {{ network_interface | to_nice_json }}
+      *interface*: {{ interface }}
+  delegate_to: localhost
+  when:
+    - slack_token is defined
+
+
 - template:
-    src: "ifcfg-ens.j2"
+    src: "ifcfg-en.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
   register:
     ifcfg_eth
   when:
-    - "'ens' in interface"
+    - "'en' in interface"
 
 - template:
-    src: "ifcfg-ens-vlan.j2"
+    src: "ifcfg-en-vlan.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}.{{ item.vlan }}"
   register:
     ifcfg_vlan
   with_items:
     "{{ network_interface.vlans }}"
   when:
-    - "'ens' in interface"
+    - "'en' in interface"
     - "network_interface.vlans is defined"
 
 - template:

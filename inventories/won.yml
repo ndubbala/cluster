@@ -6,18 +6,13 @@ all:
     ienuwonswp0101.suwa.illallangi.enterprises:
       network_interfaces:
         - hwaddr:  "c0:3f:d5:65:2c:e6"
-          ipaddr:  "150.101.220.180"
-          netmask: "255.255.255.248"
+          ipv4:    "150.101.220.180/29"
           gateway: "150.101.220.177"
           vlans:
             - vlan:    "1"
-              ipaddr:  "172.25.0.13"
-              netmask: "255.255.255.0"
+              ipv4:    "172.25.0.13/24"
         - interface: "lo"
-          ipaddr:    "127.0.0.1"
-          netmask:   "255.0.0.0"
-          network:   "127.0.0.0"
-          broadcast: "127.255.255.255"
+          ipv4:      "127.0.0.1/8"
           name:      "loopback"
       docker_swarm_interface: "172.25.0.13"
       storage_lvgs:
@@ -28,18 +23,13 @@ all:
     ienuwonswp0102.suwa.illallangi.enterprises:
       network_interfaces:
         - hwaddr:  "c0:3f:d5:65:2e:4a"
-          ipaddr:  "150.101.220.181"
-          netmask: "255.255.255.248"
+          ipv4:    "150.101.220.181/29"
           gateway: "150.101.220.177"
           vlans:
             - vlan:    "1"
-              ipaddr:  "172.25.0.14"
-              netmask: "255.255.255.0"
+              ipv4:    "172.25.0.14/24"
         - interface: "lo"
-          ipaddr:    "127.0.0.1"
-          netmask:   "255.0.0.0"
-          network:   "127.0.0.0"
-          broadcast: "127.255.255.255"
+          ipv4:      "127.0.0.1/8"
           name:      "loopback"
       docker_swarm_interface: "172.25.0.14"
       storage_lvgs:
@@ -50,18 +40,13 @@ all:
     ienuwonswp0103.suwa.illallangi.enterprises:
       network_interfaces:
         - hwaddr:  "c0:3f:d5:64:fa:de"
-          ipaddr:  "150.101.220.182"
-          netmask: "255.255.255.248"
+          ipv4:    "150.101.220.182/29"
           gateway: "150.101.220.177"
           vlans:
             - vlan:    "1"
-              ipaddr:  "172.25.0.15"
-              netmask: "255.255.255.0"
+              ipv4:    "172.25.0.15/24"
         - interface: "lo"
-          ipaddr:    "127.0.0.1"
-          netmask:   "255.0.0.0"
-          network:   "127.0.0.0"
-          broadcast: "127.255.255.255"
+          ipv4:      "127.0.0.1/8"
           name:      "loopback"
       docker_swarm_interface: "172.25.0.15"
       storage_lvgs:
