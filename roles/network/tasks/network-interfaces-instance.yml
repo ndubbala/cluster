@@ -30,10 +30,10 @@
     src: "ifcfg-en.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
   register:
-    ifcfg_eth
+    configuration
   
 - service:
     name:  "network"
     state: "restarted"
   when:
-    - ifcfg_eth.changed or ifcfg_vlan.changed or ifcfg_lo.changed
+    - configuration.changed
