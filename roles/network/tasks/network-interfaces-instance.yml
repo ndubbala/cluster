@@ -5,27 +5,44 @@
   with_items: "{{ ansible_interfaces }}"
   when:
     - "'.' not in item"
+    - "not network_interface.interface is defined"
     - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] is defined"
     - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] == network_interface.hwaddr"
 
+- set_fact:
+    interface: "{{ network_interface.interface }}"
+  when:
+    - "network_interface.interface is defined"
+
 - template:
-    src: "ifcfg-eth.j2"
+    src: "ifcfg-ens.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
   register:
     ifcfg_eth
+  when:
+    - "'ens' in interface"
 
 - template:
-    src: "ifcfg-vlan.j2"
+    src: "ifcfg-ens-vlan.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}.{{ item.vlan }}"
   register:
     ifcfg_vlan
   with_items:
     "{{ network_interface.vlans }}"
   when:
-    - network_interface.vlans is defined
+    - "'ens' in interface"
+    - "network_interface.vlans is defined"
 
+- template:
+    src: "ifcfg-lo.j2"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ network_interface.interface }}"
+  register:
+    ifcfg_lo
+  when:
+    - "'lo' in interface"
+  
 - service:
     name:  "network"
     state: "restarted"
   when:
-    - ifcfg_eth.changed or ifcfg_vlan.changed
+    - ifcfg_eth.changed or ifcfg_vlan.changed or ifcfg_lo.changed
