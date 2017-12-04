@@ -8,5 +8,6 @@
     - "iotop"
     - "mosh"
     - "ansible"
+    - "python-netaddr"
     - "dos2unix"
     - "unix2dos"
