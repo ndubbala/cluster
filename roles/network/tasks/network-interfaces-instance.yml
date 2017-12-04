@@ -1,7 +1,7 @@
 ---
 
 - set_fact:
-    interface: "{{ item }}"
+    interface: "{{ item }}{% if network_interface.vlan is defined %}.{{ network_interface.vlan }}{% endif %}"
   with_items: "{{ ansible_interfaces }}"
   when:
     - "'.' not in item"
@@ -26,33 +26,11 @@
   when:
     - slack_token is defined
 
-
 - template:
     src: "ifcfg-en.j2"
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
   register:
     ifcfg_eth
-  when:
-    - "'en' in interface"
-
-- template:
-    src: "ifcfg-en-vlan.j2"
-    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}.{{ item.vlan }}"
-  register:
-    ifcfg_vlan
-  with_items:
-    "{{ network_interface.vlans }}"
-  when:
-    - "'en' in interface"
-    - "network_interface.vlans is defined"
-
-- template:
-    src: "ifcfg-lo.j2"
-    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ network_interface.interface }}"
-  register:
-    ifcfg_lo
-  when:
-    - "'lo' in interface"
   
 - service:
     name:  "network"
