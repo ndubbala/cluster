@@ -1,0 +1,12 @@
+#!/usr/bin/ansible-playbook --inventory-file=inventories/suwa.yml
+---
+
+- hosts: all
+  roles:
+#  - { role: network }
+#  - { role: ntp }
+  - { role: dns }
+#  - { role: storage }
+#  - { role: docker }
+#  - { role: users }
+#  - { role: dnscontrol }
