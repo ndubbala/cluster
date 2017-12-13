@@ -1,0 +1,49 @@
+---
+
+- yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "quagga"
+  when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) == 0"
+
+
+- file:
+    path: "/etc/quagga"
+    state: absent
+  when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) == 0"
+
+- yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "quagga"
+  when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) > 0"
+
+- template:
+    src: "ospfd.conf.j2"
+    dest: "/etc/quagga/ospfd.conf"
+  when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) > 0"
+  register: configuration
+
+- service:
+    name:    "{{ item }}"
+    state:   "stopped"
+  with_items:
+    - "zebra"
+    - "ospfd"
+  when:
+    - "configuration.changed"
+
+- service:
+    name:    "{{ item }}"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "zebra"
+    - "ospfd"
