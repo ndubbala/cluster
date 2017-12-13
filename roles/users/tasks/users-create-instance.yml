@@ -16,6 +16,8 @@
 
 - user:
     name:              "{{ user.name }}"
+    group:             "{{ user.group | default (user.name) }}"
+    groups:            "{{ user.groups | join(',') }}"
     comment:           "{{ user.comment | default(user.name) }}"
     uid:               "{{ user.uid }}"
     password:          "{{ user.password }}"

@@ -6,4 +6,4 @@
   when:
     - hostvars[inventory_hostname][item] is not defined
   with_items:
-    - storage_lvgs
+    - users
