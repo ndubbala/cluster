@@ -11,6 +11,7 @@ all:
         - vlan:    "1"
           hwaddr:  "c0:3f:d5:65:2c:e6"
           ipv4:    "172.25.0.13/24"
+          ospf_area: 1
         - interface: "lo"
           ipv4:      "127.0.0.1/8"
           name:      "loopback"
@@ -88,13 +89,17 @@ all:
       - 8.8.4.4
 
     storage_volumes:
-      - lv:     "volume1"
-        mnt:    "/var/lib/blocks/volume1"
-      - lv:     "docker"
-        mnt:    "/var/lib/docker"
+      - lv:        "volume1"
+        mnt:       "/var/lib/blocks/volume1"
+        dependant: "glusterd.service"
+      - lv:        "docker"
+        mnt:       "/var/lib/docker"
+        dependant: "docker.service"
       - gv:     "{{ inventory_hostname[4:7] | upper() }}Stack"
+        dependant: "docker.service"
       - nv:     "{{ inventory_hostname[4:7] | upper() }}Data"
         src:    "ienuyarnsi0001.suwa.illallangi.enterprises:/volume1/{{ inventory_hostname[4:7] | upper() }}Data"
+        dependant: "docker.service"
       - gv:     "{{ inventory_hostname[4:7] | upper() }}Home"
         mnt:    "/home"
     storage_lvgs:
