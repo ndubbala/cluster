@@ -17,6 +17,40 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
                       CNAME('www', 'illallangi-web.github.io.'),
                      CNAME('home', 'illallangi-web.github.io.'),
 
+// nagoya.illallangi.enterprises delegation
+
+                      NS('nagoya', 'ienuyaradp0101.nagoya.illallangi.enterprises.'),
+                      NS('nagoya', 'ienuyaradp0102.nagoya.illallangi.enterprises.'),
+                      NS('nagoya', 'ienuacaadp0101.nagoya.illallangi.enterprises.'),
+                      NS('nagoya', 'ienuacaadp0102.nagoya.illallangi.enterprises.'),
+
+// oppama.illallangi.enterprises delegation
+                      NS('oppama', 'ienuyaradp0201.oppama.illallangi.enterprises.'),
+                      NS('oppama', 'ienuyaradp0202.oppama.illallangi.enterprises.'),
+
+// YAR-PAY-01
+
+        A('ienuyaradp0101.nagoya', '172.25.16.16'),
+        A('ienuyaradp0201.oppama', '172.25.16.17'),
+
+// YAR-PAY-02
+
+        A('ienuyaradp0102.nagoya', '172.25.17.16'),
+        A('ienuyaradp0202.oppama', '172.25.17.17'),
+
+// ACA-PAY-01
+
+        A('ienuacaadp0101.nagoya', '172.25.48.16'),
+
+// ACA-PAY-02
+
+        A('ienuacaadp0102.nagoya', '172.25.49.16'),
+
+
+// ANY-01
+                     A('ntp.suwa', '172.25.25.25'),
+                  A('resolv.suwa', '172.25.25.25'),
+
 // YAR-INF-01
 
       A('vl1.ienuyarrti0101.suwa', '172.25.0.1'),
@@ -69,6 +103,8 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
               CNAME('diskstation', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
           CNAME('downloadstation', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
               CNAME('filestation', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
+                     CNAME('view', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
+                  CNAME('vcenter', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
                      CNAME('plex', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
                    CNAME('radarr', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
                    CNAME('sonarr', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
