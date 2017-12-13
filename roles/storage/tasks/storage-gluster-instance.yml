@@ -1,10 +1,5 @@
 ---
 
-- name: "Create {{ storage.gv }} Mountpoint"
-  file:
-    path:  "{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}"
-    state: "directory"
-
 - name: "Create {{ storage.gv }} Brick Path"
   file:
     path:  "/var/lib/blocks/{{ storage.bricks | default('volume1') }}/{{ storage.gv }}"
@@ -21,9 +16,14 @@
       "{{ groups['all'] }}"
   run_once: true
 
-- name: "Mount {{ storage.gv }} Gluster Volume"
-  mount:
-    path:  "{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}"
-    src:    "{{ inventory_hostname }}:/{{ storage.gv }}"
-    fstype: "glusterfs"
-    state:  "mounted"
+- include_tasks: "mnt.yml"
+  with_items:
+    - what:    "{{ inventory_hostname }}:/{{ storage.gv }}"
+      where:   "{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}"
+      type:    "glusterfs"
+      wants:
+        - gluster.service
+      after:
+        - gluster.service
+  loop_control:
+    loop_var: mnt

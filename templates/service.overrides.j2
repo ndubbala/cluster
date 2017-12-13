@@ -1,0 +1,12 @@
+[Unit]
+{% if service.after is defined %}
+After={{ service.after | join(' ')}}
+{% endif %}
+{% if service.wants is defined %}
+Wants={{ service.wants | join(' ')}}
+{% endif %}
+{% if service.execstartpre is defined %}
+{% for exec in service.execstartpre %}
+ExecStartPre={{ exec }}
+{% endfor %}
+{% endif %}

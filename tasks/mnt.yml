@@ -1,0 +1,45 @@
+---
+
+- slack:
+    token: "{{ slack_token }}"
+    msg:   |
+      :information_source: *{{ role_path | basename }} running mnt.yml on {{ inventory_hostname_short }} with the following variable:*
+      
+      *mnt*:
+      {{ mnt | to_nice_json }}
+  delegate_to: localhost
+  when:
+    - slack_token is defined
+
+- template:
+    src: "mnt.mount.j2"
+    dest: "/etc/systemd/system/{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+
+- include_tasks: "service.overrides.yml"
+  with_items:
+    - name: "{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+      override: "00-after"
+      after:
+        "{{ mnt.after | default([]) }}"
+    - name: "{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+      override: "00-wants"
+      wants:
+        "{{ mnt.wants | default([]) }}"
+    - name: "{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+      override: "00-mkdir"
+      execstartpre:
+        - "-/bin/mkdir -p {{ mnt.where }}"
+    - name: "{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+      override: "00-chmod"
+      execstartpre:
+        - "-/bin/chmod 0755 {{ mnt.where }}"
+  loop_control:
+    loop_var: service
+
+- service:
+    name:          "{{ item }}"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "{{ mnt.where | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"

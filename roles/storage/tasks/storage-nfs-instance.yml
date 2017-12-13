@@ -1,14 +1,22 @@
 ---
 
-- name: "Create {{ storage.nv }} Mountpoint"
-  file:
-    path:   "{{ storage.mnt | default('/mnt/' + storage.nv) }}"
-    state:  "directory"
-
-- name: "Mount {{ storage.nv }} Logical Volume"
-  mount: 
-    path:   "{{ storage.mnt | default('/volume1/' + storage.nv) }}"
-    src:    "{{ storage.src }}"
-    fstype: "{{ storage.fs | default('nfs') }}"
-    opts:   "{{ storage.opts | default('defaults') }}"
-    state:  "mounted"
+- include_tasks: "mnt.yml"
+  with_items:
+    - what:    "{{ storage.src }}"
+      where:   "{{ storage.mnt | default('/volume1/' + storage.nv) }}"
+      type:    "{{ storage.fs | default('nfs') }}"
+      options: "{{ storage.options | default('defaults') }}"
+      wants:
+        - network.service
+        - rpcbind.service
+        - nfs-server.service
+        - nfs-lock.service
+        - nfs-idmap.service
+      after:
+        - network.service
+        - rpcbind.service
+        - nfs-server.service
+        - nfs-lock.service
+        - nfs-idmap.service
+  loop_control:
+    loop_var: mnt

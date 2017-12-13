@@ -1,0 +1,14 @@
+---
+
+- include_tasks: "service.overrides.yml"
+  with_items:
+    - name: "{{ storage.dependant }}"
+      override: "{{ storage.mnt | regex_replace('^\\/','') | regex_replace('\\/','-') }}-after"
+      after:
+        - "{{ storage.mnt | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+    - name: "{{ storage.dependant }}"
+      override: "{{ storage.mnt | regex_replace('^\\/','') | regex_replace('\\/','-') }}-wants"
+      wants:
+        - "{{ storage.mnt | regex_replace('^\\/','') | regex_replace('\\/','-') }}.mount"
+  loop_control:
+    loop_var: service

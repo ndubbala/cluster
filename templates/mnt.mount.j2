@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount {{ mnt.where }}
+
+[Mount]
+What={{ mnt.what }}
+Where={{ mnt.where }}
+Type={{ mnt.type }}
+Options={{ mnt.options | default('defaults') }}
+
+[Install]
+WantedBy=multi-user.target

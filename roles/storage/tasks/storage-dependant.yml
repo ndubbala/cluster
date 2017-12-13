@@ -1,0 +1,10 @@
+---
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  with_items:
+    "{{ storage_volumes }}"
+  loop_control:
+    loop_var: storage
+  when:
+   - storage.dependant is defined
+   - storage.mnt is defined
