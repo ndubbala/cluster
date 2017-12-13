@@ -1,0 +1,28 @@
+---
+
+- file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    "/etc/ntp"
+
+- template:
+    src: "ntp.conf.j2"
+    dest: "/etc/ntp.conf"
+  register: configuration
+
+- service:
+    name:    "{{ item }}"
+    state:   "stopped"
+  with_items:
+    - "ntpd"
+  when:
+    - "configuration.changed"
+
+- service:
+    name:          "{{ item }}"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "ntpd"
