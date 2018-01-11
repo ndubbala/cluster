@@ -1,5 +1,33 @@
 ---
 
+- name: "Install Repositories from Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - "centos-release-gluster"
+  when:
+    - "(storage_volumes | selectattr('gv','defined') | list | length) > 0"
+
+- name: "Install Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - "glusterfs-server"
+  when:
+    - "(storage_volumes | selectattr('gv','defined') | list | length) > 0"
+
+- name: "Uninstall Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: absent
+  with_items:
+    - "centos-release-gluster"
+    - "glusterfs-server"
+  when:
+    - "(storage_volumes | selectattr('gv','defined') | list | length) == 0"
+
 - name: "Start Gluster Service"
   service: 
     name:          "{{ item }}"

@@ -1,5 +1,23 @@
 ---
 
+- name: "Install Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - "nfs-utils"
+  when:
+    - "(storage_volumes | selectattr('nv','defined') | list | length) > 0"
+
+- name: "Uninstall Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: absent
+  with_items:
+    - "nfs-utils"
+  when:
+    - "(storage_volumes | selectattr('nv','defined') | list | length) == 0"
+
 - include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
   with_items:
     "{{ storage_volumes }}"
