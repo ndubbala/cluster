@@ -6,8 +6,8 @@
   loop_control:
     loop_var: role_task
   with_items:
-#    - "install"
-#    - "lvm"
-#    - "gluster"
-#    - "nfs"
+    - "install"
+    - "lvm"
+    - "gluster"
+    - "nfs"
     - "dependant"
