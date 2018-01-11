@@ -11,7 +11,6 @@ all:
         - vlan:    "1"
           hwaddr:  "c0:3f:d5:65:2c:e6"
           ipv4:    "172.25.0.13/24"
-          ospf_area: 1
         - interface: "lo"
           ipv4:      "127.0.0.1/8"
           name:      "loopback"
