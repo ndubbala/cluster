@@ -8,3 +8,4 @@
   with_items:
     - "install"
     - "configure"
+    - "timezone"

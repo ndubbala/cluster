@@ -4,6 +4,7 @@
 - hosts: all
   roles:
   - { role: network }
+  - { role: ntp }
   - { role: storage }
   - { role: docker }
   - { role: users }

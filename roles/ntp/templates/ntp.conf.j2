@@ -9,4 +9,4 @@ restrict default nomodify notrap nopeer noquery kod limited
 restrict 127.0.0.1
 restrict ::1
 
-server {{ ntp_server | default('ntp.suwa.illallangi.enterprises') }} iburst
+server {{ ntp_server }} iburst

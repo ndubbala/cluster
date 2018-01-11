@@ -1,0 +1,4 @@
+---
+
+- timezone:
+    name: "{{ ntp_tz | default('Australia/Melbourne') }}"

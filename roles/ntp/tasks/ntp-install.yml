@@ -5,3 +5,13 @@
     state: present
   with_items:
     - "ntp"
+  when:
+    - "ntp_server is defined"
+
+- yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "ntp"
+  when:
+    - "not ntp_server is defined"
