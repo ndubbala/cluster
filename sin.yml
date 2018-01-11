@@ -1,0 +1,11 @@
+#!/usr/bin/ansible-playbook --inventory-file=inventories/sin.yml
+---
+
+- hosts: all
+  roles:
+    - { role: network }
+    - { role: ntp }
+    - { role: storage }
+    - { role: docker }
+    - { role: users }
+    - { role: dnscontrol }
