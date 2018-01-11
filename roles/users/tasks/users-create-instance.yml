@@ -1,5 +1,10 @@
 ---
 
+- group:
+    state: "present"
+    name:  "{{ user.group | default(user.name) }}"
+    gid:   "{{ user.gid | default(user.uid) }}"
+
 - user:
     name:              "{{ user.name }}"
     group:             "{{ user.group | default (user.name) }}"
