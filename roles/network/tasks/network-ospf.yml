@@ -8,7 +8,6 @@
   when:
     - "(network_interfaces | selectattr('ospf_area','defined') | list | length) == 0"
 
-
 - file:
     path: "/etc/quagga"
     state: absent
@@ -37,6 +36,7 @@
     - "zebra"
     - "ospfd"
   when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) > 0"
     - "configuration.changed"
 
 - service:
@@ -47,3 +47,5 @@
   with_items:
     - "zebra"
     - "ospfd"
+  when:
+    - "(network_interfaces | selectattr('ospf_area','defined') | list | length) > 0"
