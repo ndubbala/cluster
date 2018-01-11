@@ -6,6 +6,7 @@
   when:
     - "'.' not in item"
     - "not network_interface.interface is defined"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)] is defined"
     - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] is defined"
     - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] == network_interface.hwaddr"
 
