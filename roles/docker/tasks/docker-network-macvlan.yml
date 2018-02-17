@@ -1,0 +1,39 @@
+---
+
+- set_fact:
+    interface: "{{ item }}{% if network_interface.vlan is defined %}.{{ network_interface.vlan }}{% endif %}"
+  with_items: "{{ ansible_interfaces }}"
+  when:
+    - "'.' not in item"
+    - "not network_interface.interface is defined"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)] is defined"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] is defined"
+    - "hostvars[inventory_hostname]['ansible_%s' | format(item)]['macaddress'] == network_interface.hwaddr"
+
+- set_fact:
+    interface: "{{ network_interface.interface }}"
+  when:
+    - "network_interface.interface is defined"
+
+- slack:
+    token: "{{ slack_token }}"
+    msg:   |
+      :information_source: *{{ role_path | basename }} running docker-network-macvlan.yml on {{ inventory_hostname_short }} with the following variable:*
+      
+      *network_interface*:
+      {{ network_interface | to_nice_json }}
+      *interface*: {{ interface }}
+  delegate_to: localhost
+  when:
+    - slack_token is defined
+
+- shell: "/usr/bin/docker network ls --format {{'{{.Name}}'}}"
+  register: docker_nets
+  changed_when: false
+
+- shell: "docker network create --config-only --subnet {{ network_interface.macvlan.subnet }} --gateway {{ network_interface.macvlan.gateway }} -o parent={{ interface }} --ip-range {{ network_interface.macvlan.iprange }} vlan{{ network_interface.vlan }}_net"
+  when:  ('vlan' + network_interface.vlan + '_net') not in docker_nets.stdout_lines
+
+- shell: "docker network create -d macvlan --scope swarm --config-from vlan{{ network_interface.vlan }}_net vlan{{ network_interface.vlan }}"
+  when:  ('vlan' + network_interface.vlan) not in docker_nets.stdout_lines
+  run_once: true

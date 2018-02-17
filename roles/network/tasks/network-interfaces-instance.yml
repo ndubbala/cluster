@@ -32,9 +32,36 @@
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ interface }}"
   register:
     configuration
-  
+
+- template:
+    src: "ifup-local.j2"
+    dest: "/sbin/ifup-local"
+    mode: "0755"
+  register:
+    local
+  when:
+    - (network_interface.promisc is defined) or (network_interface.macvlan is defined)
+
+- template:
+    src: "ifup-local-promisc.j2"
+    dest: "/sbin/ifup-local-{{ interface }}"
+    mode: "0755"
+  register:
+    promisc
+  when:
+    - (network_interface.promisc is defined) or (network_interface.macvlan is defined)
+
+- file:
+    path: "/sbin/ifup-local-{{ interface }}"
+    state: absent
+  register:
+    promisc_nomore
+  when:
+    - not network_interface.promisc is defined
+    - not network_interface.macvlan is defined
+
 - service:
     name:  "network"
     state: "restarted"
   when:
-    - configuration.changed
+    - (configuration.changed) or (local.changed) or (promisc.changed) or (promisc_nomore.changed)

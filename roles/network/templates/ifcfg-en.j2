@@ -9,6 +9,7 @@ VLAN=yes
 DEVICE={{ interface }}
 BOOTPROTO=static
 ONBOOT=yes
+{% if network_interface.ipv4 is defined %}
 IPADDR={{ network_interface.ipv4 | ipaddr('address') }}
 NETMASK={{ network_interface.ipv4 | ipaddr('netmask') }}
 NETWORK={{ network_interface.ipv4 | ipaddr('network') }}
@@ -17,6 +18,10 @@ BROADCAST={{ network_interface.ipv4 | ipaddr('broadcast') }}
 GATEWAY={{ network_interface.gateway }}
 {% else %}
 DEFROUTE=no
+{% endif %}
+{% endif %}
+{% if network_interface.promisc is defined or network_interface.macvlan is defined %}
+PROMISC=yes
 {% endif %}
 {% if network_interface.name is defined %}
 NAME={{ network_interface.name }}

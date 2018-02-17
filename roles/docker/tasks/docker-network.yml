@@ -4,3 +4,11 @@
     name:   "{{ docker_proxy_network }}"
     driver: "overlay"
   run_once: "yes"
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-macvlan.yml"
+  loop_control:
+    loop_var: network_interface
+  with_items:
+    - "{{ network_interfaces }}"
+  when:
+    - network_interface.macvlan is defined
