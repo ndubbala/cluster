@@ -1,5 +1,14 @@
 ---
 
+- name: "Install Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - "lvm2"
+  when:
+    - "(storage_volumes | selectattr('lv','defined') | list | length) > 0"
+
 - name: "Create Volume Group"
   lvg:
     vg:    "{{ item.vg }}"
