@@ -17,6 +17,20 @@ all:
           pvs:
             - "/dev/sda"
 
+    ienusinswp0102.suwa.illallangi.enterprises:
+      network_interfaces:
+        - hwaddr:  "3a:88:dc:91:2c:4c"
+          ipv4:    "159.65.5.106/20"
+          gateway: "159.65.0.1"
+        - interface: "lo"
+          ipv4:      "127.0.0.1/8"
+          name:      "loopback"
+      docker_swarm_interface: "159.65.5.106"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
   vars:
   
     slack_token: !vault |
