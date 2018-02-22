@@ -3,6 +3,7 @@
 
 - hosts: all
   roles:
+  - { role: ansible }
   - { role: network }
   - { role: ntp }
   - { role: storage }
