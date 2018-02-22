@@ -24,3 +24,17 @@
   with_items:
   - "python-docker"
   - "docker-ce"
+
+- name: "Uninstall Packages"
+  yum:
+    pkg: "{{ item }}"
+    state: absent
+  with_items:
+  - "docker-compose"
+
+- name: "Install docker-compose"
+  get_url:
+    url:        "https://github.com/docker/compose/releases/download/1.19.0/docker-compose-Linux-x86_64"
+    dest:       "/usr/local/bin/docker-compose"
+    checksum:   "sha256:78734996d716113f9f9716d0b5064166e9475835e5000fd01b0480d19e1f7372"
+    mode:       "0755"
