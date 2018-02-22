@@ -14,6 +14,12 @@
     replicas: "{{ groups['all'] | length }}"
     cluster:
       "{{ groups['all'] }}"
+    options:
+      nfs.disable: "{{ storage.gluster_nfs_disable | default('on') }}"
+      cluster.min-free-disk: "{{ storage.gluster_min_free_disk | default('10%') }}"
+      performance.cache-size: "{{ storage.gluster_performance_cache_size | default('512MB') }}"
+      performance.cache-max-file-size: "{{ storage.gluster_performance_cache_max_file_size | default('256MB') }}"
+      performance.flush-behind: "{{ storage.gluster_performance_flush_behind | default('on') }}"
   run_once: true
   when: (groups['all'] | length) > 1
 
@@ -25,6 +31,12 @@
     host: "{{ ansible_hostname }}"
     cluster:
       "{{ groups['all'] }}"
+    options:
+      nfs.disable: "{{ storage.gluster_nfs_disable | default('on') }}"
+      cluster.min-free-disk: "{{ storage.gluster_min_free_disk | default('10%') }}"
+      performance.cache-size: "{{ storage.gluster_performance_cache_size | default('512MB') }}"
+      performance.cache-max-file-size: "{{ storage.gluster_performance_cache_max_file_size | default('256MB') }}"
+      performance.flush-behind: "{{ storage.gluster_performance_flush_behind | default('on') }}"
   run_once: true
   when: (groups['all'] | length) == 1
 
