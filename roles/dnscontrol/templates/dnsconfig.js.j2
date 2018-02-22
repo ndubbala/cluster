@@ -10,12 +10,11 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
 
 // Apex records:
 
-                        ALIAS('@', 'illallangi-web.github.io.'),
+                        ALIAS('@', 'suwa.illallangi.enterprises.'),
                           TXT('@', 'v=spf1 include:spf.protection.outlook.com include:_spf.internode.on.net -all'),
                            MX('@', 0, 'illallangi-enterprises.mail.protection.outlook.com.'),
-                      CNAME('pki', 'illallangi-web.github.io.'),
-                      CNAME('www', 'illallangi-web.github.io.'),
-                     CNAME('home', 'illallangi-web.github.io.'),
+                      CNAME('www', 'suwa.illallangi.enterprises.'),
+                     CNAME('home', 'suwa.illallangi.enterprises.'),
 
 // nagoya.illallangi.enterprises delegation
 
@@ -97,6 +96,9 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
    A('vl4093.ienuacarti0101.suwa', '150.101.220.179'),
 
     CNAME('*.ienuwonswp0100.suwa', 'ienuwonswp0100.suwa.illallangi.enterprises.'),
+                         A('suwa', '150.101.220.180'),
+                         A('suwa', '150.101.220.181'),
+                         A('suwa', '150.101.220.182'),
           A('ienuwonswp0100.suwa', '150.101.220.180'),
           A('ienuwonswp0100.suwa', '150.101.220.181'),
           A('ienuwonswp0100.suwa', '150.101.220.182'),
@@ -121,6 +123,7 @@ D('illallangi.enterprises', REG_NONE, DnsProvider(DNS_CF),
 // SIN-WAN-01
 
     CNAME('*.ienusinswp0100.suwa', 'ienusinswp0100.suwa.illallangi.enterprises.'),
+                         A('suwa', '128.199.152.218'),
           A('ienusinswp0100.suwa', '128.199.152.218'),
           A('ienusinswp0101.suwa', '128.199.152.218'),
           A('ienusinswp0102.suwa', '159.65.5.106'),
