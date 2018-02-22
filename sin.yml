@@ -3,9 +3,9 @@
 
 - hosts: all
   roles:
-    - { role: network }
-    - { role: ntp }
-    - { role: storage }
-    - { role: docker }
-    - { role: users }
-    - { role: dnscontrol }
+  - { role: network }
+  - { role: ntp }
+  - { role: storage }
+  - { role: docker }
+  - { role: users }
+  - { role: dnscontrol }
