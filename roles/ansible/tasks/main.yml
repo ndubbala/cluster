@@ -1,3 +1,8 @@
-- template:
-    src: "hosts.j2"
-    dest: "/etc/ansible/hosts"
+---
+
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}.yml"
+  loop_control:
+    loop_var: role_task
+  with_items:
+    - "install"
+    - "ara"

@@ -1,0 +1,28 @@
+---
+
+- name: "Install epel-release"
+  yum:
+    pkg:        "{{ item }}"
+    state:      "present"
+  with_items:
+    - epel-release
+
+- name: "Install ansible"
+  yum:
+    pkg:        "{{ item }}"
+    state:      "present"
+  with_items:
+    - ansible
+
+- name: "Create ansible configuration files"
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.name }}"
+    owner:  "{{ ansible_env.USER | default('docker') }}"
+    group: "{{ ansible_env.GROUP | default(ansible_env.USER | default('docker')) }}"
+    mode:  "{{ item.mode | default('0644') }}"
+  with_items:
+    - name: "hosts"
+      path: "/etc/ansible"
+    - name: "ansible.cfg"
+      path: "/etc/ansible"
