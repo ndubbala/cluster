@@ -100,9 +100,11 @@ all:
         src:    "ienuyarnsi0001.suwa.illallangi.enterprises:/volume1/{{ inventory_hostname[4:7] | upper() }}Data"
         dependant: "docker.service"
       - gv:     "{{ inventory_hostname[4:7] | upper() }}Home"
+        backup: true
         mnt:    "/home"
       - gv:     "{{ inventory_hostname[4:7] | upper() }}Ara"
         mnt:    "/var/lib/ara"
+        backup: true
     storage_lvgs:
       - vg: "{{ inventory_hostname_short }}-vg0"
         pvs:

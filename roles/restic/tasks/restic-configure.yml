@@ -1,0 +1,22 @@
+---
+
+- file:
+    path:  "/etc/backup"
+    state: "directory"
+- file:
+    path:  "/etc/backup/local"
+    state: "absent"
+
+- template:
+    src:   "{{ item.src | default(item.name) }}.j2"
+    dest:  "/etc/backup/{{ item.name }}"
+    owner: "root"
+    group: "root"
+    mode:  "{{ item.mode | default('0600') }}"
+  with_items:
+    - name: "backblaze.repo"
+    - name: "minio.repo"
+    - name: "local.config"
+    - name: "local.exclude"
+    - name: "local.post"
+      mode: "0700"

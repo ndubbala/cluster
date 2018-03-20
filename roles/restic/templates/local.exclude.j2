@@ -1,0 +1,34 @@
+/dev
+/lost+found
+/media
+/mnt
+/proc
+/run
+/sys
+/tmp
+/var/spool
+/var/run
+/var/tmp
+/var/log
+*.swp
+/boot
+/lib
+/lib64
+/bin/
+/sbin/
+/usr/sbin
+.cache
+cache
+{% for storage in storage_volumes %}
+{%  if (not (storage.backup is defined)) or  (storage.backup == false) %}
+{%   if storage.gv is defined %}
+{{ storage.mnt | default('/' + (storage.bricks | default('volume1')) + '/' + storage.gv) }}
+{%   endif %}
+{%   if storage.lv is defined %}
+{{ storage.mnt | default('/mnt/' + storage.lv) }}
+{%   endif %}
+{%   if storage.nv is defined %}
+{{ storage.mnt | default('/volume1/' + storage.nv) }}
+{%   endif %}
+{%  endif %}
+{% endfor %}
