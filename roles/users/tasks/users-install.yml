@@ -19,6 +19,7 @@
     - "nano"
     - "ruby"
     - "rubygems"
+    - "mktorrent"
 
 - name: "Install kwalify"
   gem:
