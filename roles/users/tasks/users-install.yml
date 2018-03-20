@@ -17,3 +17,15 @@
     - "dos2unix"
     - "unix2dos"
     - "nano"
+    - "ruby"
+    - "rubygems"
+
+- name: "Install kwalify"
+  gem:
+    name:         "{{ item }}"
+    env_shebang:  yes
+    include_doc:  yes
+    state:        present
+    user_install: no
+  with_items:
+    - "kwalify"
