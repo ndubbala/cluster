@@ -3,20 +3,6 @@
 all:
   hosts:
 
-    ienusinswp0101.suwa.illallangi.enterprises:
-      network_interfaces:
-        - hwaddr:  "32:5f:d8:61:53:d0"
-          ipv4:    "128.199.152.218/18"
-          gateway: "128.199.128.1"
-        - interface: "lo"
-          ipv4:      "127.0.0.1/8"
-          name:      "loopback"
-      docker_swarm_interface: "128.199.152.218"
-      storage_lvgs:
-        - vg: "{{ inventory_hostname_short }}-vg0"
-          pvs:
-            - "/dev/sda"
-
     ienusinswp0102.suwa.illallangi.enterprises:
       network_interfaces:
         - hwaddr:  "3a:88:dc:91:2c:4c"
