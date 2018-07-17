@@ -16,5 +16,5 @@
           name: "dns/creds.json"
 
 - command:
-    "/usr/bin/docker run -v /volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/dns/:/dns/ stackexchange/dnscontrol dnscontrol push"
+    "/usr/bin/docker run -v /volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/dns/:/dns/ stackexchange/dnscontrol:v0.2.6 dnscontrol push"
   run_once: "yes"
