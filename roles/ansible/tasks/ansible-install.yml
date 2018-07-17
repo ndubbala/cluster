@@ -5,14 +5,15 @@
     pkg:        "{{ item }}"
     state:      "present"
   with_items:
-    - epel-release
+    - "epel-release"
 
 - name: "Install ansible"
   yum:
     pkg:        "{{ item }}"
     state:      "present"
   with_items:
-    - ansible
+    - "ansible"
+    - "python-netaddr"
 
 - name: "Create ansible configuration files"
   template:
