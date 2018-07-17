@@ -12,6 +12,7 @@
     pkg: "{{ item }}"
     state: present
   with_items:
+    - "git"
     - "iotop"
     - "mosh"
     - "dos2unix"
