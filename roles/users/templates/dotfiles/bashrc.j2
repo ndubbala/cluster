@@ -12,10 +12,3 @@ fi
 alias docker="sudo /usr/bin/docker"
 alias docker-compose="sudo /usr/local/bin/docker-compose"
 export ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible-vault-password.txt
-
-# https://ara.readthedocs.io/en/latest/configuration.html#ara-database
-export ARA_DIR=/var/lib/ara/.ara
-export ara_location=$(python -c "import os,ara; print(os.path.dirname(ara.__file__))")
-export ANSIBLE_CALLBACK_PLUGINS=$ara_location/plugins/callbacks
-export ANSIBLE_ACTION_PLUGINS=$ara_location/plugins/actions
-export ANSIBLE_LIBRARY=$ara_location/plugins/modules
