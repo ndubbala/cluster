@@ -1,4 +1,4 @@
-#!/usr/bin/ansible-playbook --inventory-file=inventories/sin.yml
+#!/usr/bin/ansible-playbook --inventory-file=inventories/lon.yml
 ---
 
 - hosts: all

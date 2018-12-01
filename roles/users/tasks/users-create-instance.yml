@@ -50,12 +50,3 @@
     - "bashrc"
   when:
     - "inventory_hostname == groups['all'][0]"
-
-#- slurp:
-#    src: "/etc/ssh/ssh_host_ecdsa_key.pub"
-#  register: ecdsa
-
-#- known_hosts:
-#    path: "/home/{{ user.name }}/.ssh/known_hosts"
-#    name: "{{ inventory_hostname }}"
-#    key:  "{{ ecdsa['content'] | b64decode }}"

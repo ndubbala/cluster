@@ -15,18 +15,6 @@
   when:
     - "network_interface.interface is defined"
 
-- slack:
-    token: "{{ slack_token }}"
-    msg:   |
-      :information_source: *{{ role_path | basename }} running docker-network-macvlan.yml on {{ inventory_hostname_short }} with the following variable:*
-      
-      *network_interface*:
-      {{ network_interface | to_nice_json }}
-      *interface*: {{ interface }}
-  delegate_to: localhost
-  when:
-    - slack_token is defined
-
 - shell: "/usr/bin/docker network ls --format {{'{{.Name}}'}}"
   register: docker_nets
   changed_when: false

@@ -3,20 +3,20 @@
 all:
   hosts:
 
-    ienusinrti0001.sin.illallangi.dn42:
-      ansible_host: 139.162.60.74
+    ienulonrti0001.lon.illallangi.dn42:
+      ansible_host: 109.74.194.222
       network_interfaces:
-        - hwaddr:  "f2:3c:91:7c:75:66"
-          ipv4:    "139.162.60.74/24"
-          gateway: "139.162.60.1"
+        - hwaddr:  "f2:3c:91:7c:a5:0a"
+          ipv4:    "109.74.194.222/24"
+          gateway: "109.74.194.1"
         - interface: "lo"
           ipv4:      "127.0.0.1/8"
           name:      "loopback"
         - interface: "lo:0"
-          ipv4:      "172.25.25.20/32"
+          ipv4:      "172.25.25.21/32"
         - interface: "lo:1"
-          ipv4:      "172.20.227.199/32"
-      docker_swarm_interface: "172.20.227.199"
+          ipv4:      "172.20.227.200/32"
+      docker_swarm_interface: "172.20.227.200"
 
   vars:
   

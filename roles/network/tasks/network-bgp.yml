@@ -1,0 +1,51 @@
+---
+
+- yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "quagga"
+  when:
+    - "(bgp | default([]) | length) == 0"
+
+- file:
+    path: "/etc/quagga"
+    state: absent
+  when:
+    - "(bgp | default([]) | length) == 0"
+
+- yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "quagga"
+  when:
+    - "(bgp | default([]) | length) > 0"
+
+- template:
+    src: "bgpd.conf.j2"
+    dest: "/etc/quagga/bgpd.conf"
+  when:
+    - "(bgp | default([]) | length) > 0"
+  register: configuration
+
+- service:
+    name:    "{{ item }}"
+    state:   "stopped"
+  with_items:
+    - "zebra"
+    - "bgpd"
+  when:
+    - "(bgp | default([]) | length) > 0"
+    - "configuration.changed"
+
+- service:
+    name:    "{{ item }}"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "zebra"
+    - "bgpd"
+  when:
+    - "(bgp | default([]) | length) > 0"

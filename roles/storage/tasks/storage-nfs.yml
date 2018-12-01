@@ -7,7 +7,7 @@
   with_items:
     - "nfs-utils"
   when:
-    - "(storage_volumes | selectattr('nv','defined') | list | length) > 0"
+    - "(storage_volumes | default([]) | selectattr('nv','defined') | list | length) > 0"
 
 - name: "Uninstall Packages"
   yum:
@@ -16,11 +16,11 @@
   with_items:
     - "nfs-utils"
   when:
-    - "(storage_volumes | selectattr('nv','defined') | list | length) == 0"
+    - "(storage_volumes | default([]) | selectattr('nv','defined') | list | length) == 0"
 
 - include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
   with_items:
-    "{{ storage_volumes }}"
+    "{{ storage_volumes | default([]) }}"
   loop_control:
     loop_var: storage
   when:

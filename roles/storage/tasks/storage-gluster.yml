@@ -7,7 +7,7 @@
   with_items:
     - "centos-release-gluster"
   when:
-    - "(storage_volumes | selectattr('gv','defined') | list | length) > 0"
+    - "(storage_volumes | default([]) | selectattr('gv','defined') | list | length) > 0"
 
 - name: "Install Packages"
   yum:
@@ -16,7 +16,7 @@
   with_items:
     - "glusterfs-server"
   when:
-    - "(storage_volumes | selectattr('gv','defined') | list | length) > 0"
+    - "(storage_volumes | default([]) | selectattr('gv','defined') | list | length) > 0"
 
 - name: "Uninstall Packages"
   yum:
@@ -26,7 +26,7 @@
     - "centos-release-gluster"
     - "glusterfs-server"
   when:
-    - "(storage_volumes | selectattr('gv','defined') | list | length) == 0"
+    - "(storage_volumes | default([]) | selectattr('gv','defined') | list | length) == 0"
 
 - name: "Start Gluster Service"
   service: 
@@ -36,10 +36,12 @@
     daemon_reload: "yes"
   with_items:
     - "glusterd"
+  when:
+    - "(storage_volumes | default([]) | selectattr('gv','defined') | list | length) > 0"
 
 - include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
   with_items:
-    "{{ storage_volumes }}"
+    "{{ storage_volumes | default([]) }}"
   loop_control:
     loop_var: storage
   when:

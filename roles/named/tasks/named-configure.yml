@@ -1,0 +1,58 @@
+---
+
+- name: "Deploy Templates"
+  template:
+    dest:  "{{ item.path }}"
+    src:   "{{ item.src | default((item.path | basename ()) + '.j2')}}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('named') }}"
+    mode:  "{{ item.mode | default('0640') }}"
+  with_items: "{{ named_templates }}"
+  register: "configuration"
+
+- name: "Deploy Zone Files"
+  template:
+    dest:  "/var/named/{{ item.file | default(item.zone.split('.') | reverse | join('.')) }}.named"
+    src:   "{{ item.file | default(item.zone.split('.') | reverse | join('.')) }}.named.j2"
+    owner: "named"
+    group: "named"
+    mode:  "0640"
+  with_items: "{{ named_zones }}"
+  register: "configuration"
+
+- name: "Create Directories"
+  file:
+    dest:  "{{ item.path }}"
+    state: "directory"
+    owner: "{{ item.owner | default('named') }}"
+    group: "{{ item.group | default('named') }}"
+    mode:  "{{ item.mode | default('0770') }}"
+  with_items:
+    - path: "/var/named/data"
+    - path: "/var/named/dynamic"
+  register: "directories"
+
+- name: "Remove Files and Directories"
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+  - "/etc/named"
+  - "/etc/named.rfc1912.zones"
+  - "/etc/named.root.key"
+  - "/etc/named.iscdlv.key"
+  - "/var/named/slaves"
+
+- name: "Stop Named service"
+  service:
+    name:    "named"
+    state:   "stopped"
+  when:
+    - "configuration.changed or directories.changed"
+
+- name: "Start and enable Named service"
+  service: 
+    name:          "named"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"

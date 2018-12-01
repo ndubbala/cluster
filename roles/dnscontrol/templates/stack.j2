@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-
-  dnscontrol:
-    image: stackexchange/dnscontrol
-    volumes:
-      - "/volume1/{{ inventory_hostname[4:7] | upper() }}Stack/{{ role_path | basename }}/dns/:/dns/"
-    command: "dnscontrol push"

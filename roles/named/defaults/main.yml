@@ -1,0 +1,37 @@
+---
+
+named_packages:
+  - "bind"
+  - "bind-utils"
+
+named_templates:  
+  - path:  "/etc/named.conf"
+  - path:  "/var/named/empty.named"
+  - path:  "/var/named/localhost.named"
+  - path:  "/var/named/loopback.named"
+  - path:  "/var/named/root.named"
+
+named_zones:
+
+  - zone:  "dal.illallangi.enterprises"
+  - zone:  "lon.illallangi.enterprises"
+  - zone:  "mel.illallangi.enterprises"
+  - zone:  "sin.illallangi.enterprises"
+  - zone:  "sta.illallangi.enterprises"
+  - zone:  "wfs.illallangi.enterprises"
+
+  - zone:      "illallangi.dn42"
+  - zone:  "dal.illallangi.dn42"
+  - zone:  "lon.illallangi.dn42"
+  - zone:  "mel.illallangi.dn42"
+  - zone:  "sin.illallangi.dn42"
+  - zone:  "sta.illallangi.dn42"
+  - zone:  "wfs.illallangi.dn42"
+
+  - zone:      "illallangi.ienu"
+  - zone:  "dal.illallangi.ienu"
+  - zone:  "lon.illallangi.ienu"
+  - zone:  "mel.illallangi.ienu"
+  - zone:  "sin.illallangi.ienu"
+  - zone:  "sta.illallangi.ienu"
+  - zone:  "wfs.illallangi.ienu"

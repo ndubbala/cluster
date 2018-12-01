@@ -10,7 +10,7 @@
   filesystem:
     fstype: "{{ storage.fs | default('xfs') }}"
     dev:    "/dev/{{ storage.vg | default(storage_lvgs[0].vg) }}/{{ storage.lv }}"
-
+  
 - include_tasks: "mnt.yml"
   with_items:
     - what:    "/dev/{{ storage.vg | default(storage_lvgs[0].vg) }}/{{ storage.lv }}"

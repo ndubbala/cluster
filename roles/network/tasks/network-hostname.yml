@@ -1,5 +1,21 @@
 ---
 
 - name: "Set hostname"
-  hostname:
-    name: "{{ inventory_hostname }}"
+  template:
+    src: "hostname.j2"
+    dest: "/etc/hostname"
+  register: config
+
+- name: "Reboot"
+  shell: "sleep 5 && reboot"
+  async: true
+  poll: 0
+  when: config.changed
+
+- name: "Wait for server to boot"
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: config.changed

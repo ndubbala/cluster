@@ -5,4 +5,4 @@
     loop_var: role_task
   with_items:
     - "install"
-    - "create"
+    - "configure"

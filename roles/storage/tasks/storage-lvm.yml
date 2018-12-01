@@ -7,7 +7,7 @@
   with_items:
     - "lvm2"
   when:
-    - "(storage_volumes | selectattr('lv','defined') | list | length) > 0"
+    - "(storage_volumes | default([]) | selectattr('lv','defined') | list | length) > 0"
 
 - name: "Create Volume Group"
   lvg:
@@ -15,11 +15,11 @@
     pvs:   "{{ item.pvs }}"
     state: "present"
   with_items:
-    "{{ storage_lvgs }}"
+    "{{ storage_lvgs | default([]) }}"
 
 - include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
   with_items:
-    "{{ storage_volumes }}"
+    "{{ storage_volumes | default([]) }}"
   loop_control:
     loop_var: storage
   when:

@@ -1,12 +1,12 @@
-#!/usr/bin/ansible-playbook --inventory-file=inventories/sin.yml
+#!/usr/bin/ansible-playbook --inventory-file=inventories/mel.yml
 ---
 
 - hosts: all
   roles:
 #  - { role: ansible }
-  - { role: named }
+#  - { role: named }
 #  - { role: network }
 #  - { role: ntp }
 #  - { role: storage }
-#  - { role: docker }
+  - { role: docker }
 #  - { role: users }

@@ -1,0 +1,199 @@
+---
+
+all:
+  hosts:
+
+    ienumelswp0101.mel.illallangi.dn42:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:65:2c:e6"
+          ipv4:    "172.22.158.180/27"
+          gateway: "172.22.158.161"
+        - interface: "lo"
+          ipv4:      "127.0.0.1/8"
+          name:      "loopback"
+        - interface: "lo:0"
+          ipv4:      "172.20.227.196/32"
+        - interface: "lo:1"
+          ipv4:      "150.101.220.176/32"
+        - interface: "lo:2"
+          ipv4:      "172.20.227.192/32"
+        - interface: "lo:3"
+          ipv4:      "172.25.25.16/32"
+      bgp:
+        - router_id: "172.22.158.180"
+          as: "4242420058"
+          networks:
+            - range:     "150.101.220.176/32"
+            - range:     "172.20.227.192/32"
+            - range:     "172.25.25.16/32"
+            - range:     "172.20.227.196/32"
+          neighbors:
+            - ip:        "172.22.158.161"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.162"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.163"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.181"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.182"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+      docker_swarm_interface: "172.20.227.196"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+    ienumelswp0102.mel.illallangi.dn42:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:65:2e:4a"
+          ipv4:    "172.22.158.181/27"
+          gateway: "172.22.158.161"
+        - interface: "lo"
+          ipv4:      "127.0.0.1/8"
+          name:      "loopback"
+        - interface: "lo:0"
+          ipv4:      "172.20.227.197/32"
+        - interface: "lo:1"
+          ipv4:      "150.101.220.176/32"
+        - interface: "lo:2"
+          ipv4:      "172.20.227.192/32"
+        - interface: "lo:3"
+          ipv4:      "172.25.25.16/32"
+      bgp:
+        - router_id: "172.22.158.181"
+          as: "4242420058"
+          networks:
+            - range:     "150.101.220.176/32"
+            - range:     "172.20.227.192/32"
+            - range:     "172.25.25.16/32"
+            - range:     "172.20.227.197/32"
+          neighbors:
+            - ip:        "172.22.158.161"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.162"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.163"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.180"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.182"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+      docker_swarm_interface: "172.20.227.197"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+    ienumelswp0103.mel.illallangi.dn42:
+      network_interfaces:
+        - hwaddr:  "c0:3f:d5:64:fa:de"
+          ipv4:    "172.22.158.182/27"
+          gateway: "172.22.158.161"
+        - interface: "lo"
+          ipv4:      "127.0.0.1/8"
+          name:      "loopback"
+        - interface: "lo:0"
+          ipv4:      "172.20.227.198/32"
+        - interface: "lo:1"
+          ipv4:      "150.101.220.176/32"
+        - interface: "lo:2"
+          ipv4:      "172.20.227.192/32"
+        - interface: "lo:3"
+          ipv4:      "172.25.25.16/32"
+      bgp:
+        - router_id: "172.22.158.182"
+          as: "4242420058"
+          networks:
+            - range:     "150.101.220.176/32"
+            - range:     "172.20.227.192/32"
+            - range:     "172.25.25.16/32"
+            - range:     "172.20.227.198/32"
+          neighbors:
+            - ip:        "172.22.158.161"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.162"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.163"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.180"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.22.158.181"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+      docker_swarm_interface: "172.20.227.198"
+      storage_lvgs:
+        - vg: "{{ inventory_hostname_short }}-vg0"
+          pvs:
+            - "/dev/sda"
+
+  vars:
+
+    users:
+      - name:                "andrewc"
+        fullname:            "Andrew Cole"
+        email:               "andrew.cole@illallangi.com"
+        uid:                 "1061"
+        authorized_keys:
+          - "root"
+        password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          35613537396234323363313265653336366464616232396330613231613230396439396563626631
+          3139386666363635636230666536653462633738386637640a323339376232313561633462623337
+          38643563316431366237333666616231373030393235366438386232313231353362653865306164
+          3435653331663336640a383334303662633533313761613239666665643162626264613737356166
+          62613638393236613862663833353839656335323937393433356630393838636132336438393136
+          3434323133323638343066653238663233323165633430623432
+        groups:
+          - wheel
+
+    ntp_server: ntp.on.net
+
+    network_dnsservers:
+      - 127.0.0.1
+
+    storage_volumes:
+      - lv:        "volume1"
+        mnt:       "/var/lib/blocks/volume1"
+        dependant: "glusterd.service"
+      - lv:        "docker"
+        mnt:       "/var/lib/docker"
+        dependant: "docker.service"
+      - gv:     "{{ inventory_hostname[4:7] | upper() }}Stack"
+        dependant: "docker.service"
+      - nv:     "{{ inventory_hostname[4:7] | upper() }}Data"
+        src:    "meldata:/volume1/{{ inventory_hostname[4:7] | upper() }}Data"
+        dependant: "docker.service"
+      - gv:     "{{ inventory_hostname[4:7] | upper() }}Home"
+        backup: true
+        mnt:    "/home"
+    storage_lvgs:
+      - vg: "{{ inventory_hostname_short }}-vg0"
+        pvs:
+          - "/dev/sdb"
+
+    cloudflare_api_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62396266356131313031353132333132323138316161363462303633623233363334326530353864
+          3534663362366637396132396263353938306533626463340a363463366363633032393332636131
+          36616233333338633833336331373334393566333238393464636631656362306663393531393939
+          3638363765376336330a363939313538353961346233653237323730663434666438626164623664
+          37343538333465353437623862636563656531323236363666386636643138663635353666386365
+          3631386131396233643631383639396366386331366430643639
+    cloudflare_email: andrew.cole@illallangi.com
+
+    docker_proxy_network: proxy
