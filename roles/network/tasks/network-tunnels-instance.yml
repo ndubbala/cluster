@@ -1,0 +1,19 @@
+---
+
+- template:
+    src: "ifcfg-tun.j2"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-tun{{ network_tunnel_index }}"
+  register:
+    configuration
+
+- service:
+    name:  "network"
+    state: "restarted"
+  when:
+    - (configuration.changed)
+
+- name: "strongswan up {{ network_tunnel.name }}"
+  command: strongswan up {{ network_tunnel.name }}
+  async: 45
+  poll: 0
+  changed_when: false

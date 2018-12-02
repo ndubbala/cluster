@@ -7,4 +7,5 @@
     - "hostname"
     - "interfaces"
     - "dnsservers"
+    - "tunnels"
     - "bgp"

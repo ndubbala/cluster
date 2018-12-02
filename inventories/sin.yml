@@ -4,7 +4,7 @@ all:
   hosts:
 
     ienusinrti0001.sin.illallangi.dn42:
-      ansible_host: 139.162.60.74
+      ansible_host: "139.162.60.74"
       network_interfaces:
         - hwaddr:  "f2:3c:91:7c:75:66"
           ipv4:    "139.162.60.74/24"
@@ -16,7 +16,59 @@ all:
           ipv4:      "172.25.25.20/32"
         - interface: "lo:1"
           ipv4:      "172.20.227.199/32"
+      tunnel_outer:  "139.162.60.74"
+      tunnel_inner:  "172.20.227.199/32"
+      network_tunnels:
+        - name:      "ILL_DAL"
+          outer:     "104.237.130.251"
+          inner:     "172.20.227.201/32"
+          auth:      "cert"
+          id:        "C=US, L=Dallas, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienudalrti0001.dal.illallangi.dn42"
+        - name:      "ILL_LON"
+          outer:     "109.74.194.222"
+          inner:     "172.20.227.200/32"
+          auth:      "cert"
+          id:        "C=UK, L=London, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienulonrti0001.lon.illallangi.dn42"
+        - name:      "ILL_MEL"
+          outer:     "150.101.220.177"
+          inner:     "172.20.227.193/32"
+          auth:      "cert"
+          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienumelrti0001.mel.illallangi.dn42"
+        - name:      "ILL_STA"
+          outer:     "150.101.220.178"
+          inner:     "172.20.227.194/32"
+          auth:      "cert"
+          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienustarti0001.sta.illallangi.dn42"
+        - name:      "ILL_WFS"
+          outer:     "150.101.220.179"
+          inner:     "172.20.227.195/32"
+          auth:      "cert"
+          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienuwfsrti0001.wfs.illallangi.dn42"
+      names_c: SG
+      names_l: Singapore
       docker_swarm_interface: "172.20.227.199"
+      bgp:
+        - router_id: "172.20.227.199"
+          as: "4242420058"
+          networks:
+            - range:     "172.25.25.20/32"
+            - range:     "172.20.227.199/32"
+          neighbors:
+            - ip:        "172.20.227.193"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.20.227.194"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.20.227.195"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.20.227.200"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
+            - ip:        "172.20.227.201"
+              remote_as: "4242420058"
+              password:  "9cb65356-5709-4cb4-8d6d-7"
 
   vars:
   
