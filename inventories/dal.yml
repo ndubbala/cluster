@@ -33,17 +33,17 @@ all:
           outer:     "150.101.220.177"
           inner:     "172.20.227.193/32"
           auth:      "cert"
-          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienumelrti0001.mel.illallangi.dn42"
+          id:        "CN=ienumelrti0001.mel.illallangi.dn42, SN=FGL18122456"
         - name:      "ILL_STA"
           outer:     "150.101.220.178"
           inner:     "172.20.227.194/32"
           auth:      "cert"
-          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienustarti0001.sta.illallangi.dn42"
+          id:        "CN=ienustarti0001.sta.illallangi.dn42, SN=FGL1812244M"
         - name:      "ILL_WFS"
           outer:     "150.101.220.179"
           inner:     "172.20.227.195/32"
           auth:      "cert"
-          id:        "C=AU, L=Melbourne, O=Illallangi Enterprises, OU=Decentralized Network 42, CN=ienuwfsrti0001.wfs.illallangi.dn42"
+          id:        "CN=ienuwfsrti0001.wfs.illallangi.dn42, SN=FGL171020X0"
       names_c: US
       names_l: Dallas
       docker_swarm_interface: "172.20.227.201"
@@ -88,6 +88,7 @@ all:
           62613638393236613862663833353839656335323937393433356630393838636132336438393136
           3434323133323638343066653238663233323165633430623432
         groups:
+          - docker
           - wheel
 
     network_dnsservers:
