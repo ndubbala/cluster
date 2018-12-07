@@ -1,0 +1,154 @@
+---
+
+- yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "strongswan"
+  when:
+    - "(network_tunnels | default([]) | length) == 0"
+
+- file:
+    path: "/etc/strongswan"
+    state: absent
+  when:
+    - "(network_tunnels | default([]) | length) == 0"
+
+- yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "strongswan"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Create Directories"
+  file:
+    name: "{{ item }}"
+    state: "directory"
+  with_items:
+    - "/etc/strongswan/ipsec.d"
+    - "/etc/strongswan/ipsec.d/private"
+    - "/etc/strongswan/ipsec.d/public"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Generate {{ inventory_hostname }} Private Key"
+  shell:
+    strongswan pki --gen --type rsa --outform pem --size 4096 > /etc/strongswan/ipsec.d/private/{{ inventory_hostname }}-key.pem
+  args:
+    creates: "/etc/strongswan/ipsec.d/private/{{ inventory_hostname }}-key.pem"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Link Private Keys"
+  file:
+    state: "link"
+    path:  "/etc/strongswan/ipsec.d/private/{{ item }}-key.pem"
+    src:   "{{ inventory_hostname }}-key.pem"
+  with_items: "{{ ansible_all_ipv4_addresses }}"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Create {{ inventory_hostname }} CSR JSON"
+  template:
+    dest: "/etc/strongswan/ipsec.d/private/{{ inventory_hostname }}.json"
+    src: "csr.json.j2"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Generate {{ inventory_hostname }} CSR"
+  shell:
+    docker run
+      -v /etc/strongswan/ipsec.d:/etc/strongswan/ipsec.d
+      --rm
+      -i
+      cfssl/cfssl:latest gencsr
+        -key /etc/strongswan/ipsec.d/private/{{ inventory_hostname }}-key.pem
+        /etc/strongswan/ipsec.d/private/{{ inventory_hostname }}.json |
+          docker run
+            -v /etc/strongswan/ipsec.d:/etc/strongswan/ipsec.d
+            --rm
+            -i
+            --entrypoint cfssljson
+            cfssl/cfssl:latest
+              -bare /etc/strongswan/ipsec.d/private/{{ inventory_hostname }}
+  args:
+    creates: "/etc/strongswan/ipsec.d/private/{{ inventory_hostname }}.csr"
+
+- name: "Link Certificates"
+  file:
+    state: "link"
+    path:  "/etc/strongswan/ipsec.d/certs/{{ item }}.pem"
+    src:   "{{ inventory_hostname }}.pem"
+  with_items: "{{ ansible_all_ipv4_addresses }}"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Generate Public Key"
+  shell:
+    strongswan pki --pub --in /etc/strongswan/ipsec.d/private/{{ inventory_hostname }}-key.pem --outform pem > /etc/strongswan/ipsec.d/public/{{ inventory_hostname }}.pem
+  args:
+    creates: "/etc/strongswan/ipsec.d/public/{{ inventory_hostname }}.pem"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Link Public Keys"
+  file:
+    state: "link"
+    path:  "/etc/strongswan/ipsec.d/public/{{ item }}.pem"
+    src:   "{{ inventory_hostname }}.pem"
+  with_items: "{{ ansible_all_ipv4_addresses }}"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- name: "Create configuration files"
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/strongswan/{{ item }}"
+  with_items:
+    - "ipsec.conf"
+    - "ipsec.secrets"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+  register: configuration
+
+- service:
+    name:    "{{ item }}"
+    state:   "stopped"
+  with_items:
+    - "strongswan"
+  when:
+    - "configuration.changed"
+    - "(network_tunnels | default([]) | length) > 0"
+
+- service:
+    name:          "{{ item }}"
+    enabled:       "yes"
+    state:         "started"
+    daemon_reload: "yes"
+  with_items:
+    - "strongswan"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+
+- sysctl:
+    name: net.ipv4.ip_forward
+    value: 0
+  when:
+    - "(network_tunnels | default([]) | length) == 0"
+    
+- sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+  when:
+    - "(network_tunnels | default([]) | length) > 0"
+    
+- include_tasks: "{{ role_path | basename }}-{{ role_task }}-instance.yml"
+  loop_control:
+    loop_var: network_tunnel
+    index_var: network_tunnel_index
+  with_items:
+    - "{{ network_tunnels | default([]) }}"
+  when:
+    - "(network_tunnels | default([]) | length) > 0"

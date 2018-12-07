@@ -1,0 +1,22 @@
+{
+  "CN": "{{ inventory_hostname }}",
+  "key": {
+    "algo": "{{ key_algo | default('rsa') }}",
+    "size": {{ key_size | default('4096') }}
+  },
+{% if hosts is defined %}
+  "hosts": [
+{% for hostname in hosts %}
+    "{{ hostname }}"{{ "," if not loop.last else "" }}
+{% endfor %}
+  ],
+{% endif %}
+  "names": [
+     {
+       "C": "{{ names_c | default('AU') }}",
+       "L": "{{ names_l | default('Melbourne') }}",
+       "O": "{{ names_o | default('Illallangi Enterprises') }}",
+       "OU": "{{ names_ou | default('Decentralized Network 42') }}"
+     }
+  ]
+}

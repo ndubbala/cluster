@@ -4,7 +4,8 @@
   loop_control:
     loop_var: role_task
   with_items:
-    - "hostname"
-    - "interfaces"
-    - "dnsservers"
-    - "bgp"
+#    - "hostname"
+#    - "interfaces"
+#    - "dnsservers"
+    - "tunnels"
+#    - "bgp"
