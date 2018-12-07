@@ -8,5 +8,5 @@
 #  - { role: network }
 #  - { role: ntp }
 #  - { role: storage }
-  - { role: docker }
-#  - { role: users }
+#  - { role: docker }
+  - { role: users }
